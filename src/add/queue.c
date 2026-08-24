@@ -18,3 +18,14 @@ void queue_create (cl_context context, cl_device_id device, cl_command_queue * q
 void queue_destroy (cl_command_queue queue) {
     clReleaseCommandQueue(queue);
 }
+
+
+void queue_finish (cl_command_queue queue, int * err) {
+    if (err == nullptr) {
+        *err = __LINE__;
+        fprintf(stderr, "ERROR %d: argument `err` shouldn't be nullptr\n", *err);
+        return;
+    }
+    if (*err) return;
+    *err = clFinish(queue);
+}

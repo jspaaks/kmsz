@@ -161,6 +161,8 @@ int main (int argc, char * argv[]) {
 
     // verify the result
     {
+        queue_finish(queue, &err);
+        if (err) goto cleanup;
         int n = 3;
         fprintf(stdout, "first %d elements:\n", n);
         for (int i = 0; i < n; i++) {

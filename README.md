@@ -1,5 +1,7 @@
 # kmsz
 
+Notes and projects from Kaeli, Mistry, Schaa, and Zhang's _Heterogeneous Computing with OpenCL 2.0_
+
 ## CMake
 
 The project has been initialized with a [CMakeLists.txt](CMakeLists.txt)-based
@@ -24,7 +26,7 @@ $ cmake --install . --prefix dist/
 Query the device for some of its properties and print them
 
 ```console
-$ ./dist/bin/querying                                                                                                                                                                                                                                                                                        
+$ ./dist/bin/querying
 There is 1 OpenCL platform on the host:
    Platform 1 of 1: Intel(R) OpenCL Graphics
    There is 1 device on the platform:
@@ -54,7 +56,7 @@ Usage: ./dist/bin/add KERNELDIR
 ```
 
 ```console
-$ ./dist/bin/add ./dist/share/kmsz/assets/kernels                                                                                                                                                                                                                                                            
+$ ./dist/bin/add ./dist/share/kmsz/assets/kernels
 first 3 elements:
 0 2 4
 last 3 elements:

@@ -16,4 +16,5 @@ endif()
 
 add_subdirectory(assets/kernels)
 add_subdirectory(src/add)
+add_subdirectory(src/histogram)
 add_subdirectory(src/querying)

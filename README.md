@@ -43,7 +43,7 @@ There is 1 OpenCL platform on the host:
 
 ## `add`
 
-Vector addition using the first OpenCL capable device found
+Vector addition using the first OpenCL capable device found.
 
 ```console
 $ ./dist/bin/add
@@ -61,6 +61,34 @@ first 3 elements:
 0 2 4
 last 3 elements:
 4090 4092 4094
+```
+
+## `histogram`
+
+Use local memory and `atomic_inc` to calculate partial histograms, then use `atomic_add`
+to aggregate local histograms into the global histogram. Finally, verify the result
+against a serial implementation.
+
+```console
+$ ./dist/bin/histogram 
+Usage: ./dist/bin/histogram KERNELDIR
+
+    Calculate a histogram using the first OpenCL capable device found
+
+    KERNELDIR  directory that holds the OpenCL kernel named
+               'histogram.cl' (can be a relative path)
+$ ./dist/bin/histogram ./dist/share/kmsz/assets/kernels/                                                                                                                                                                                                                                                     
+1 platform                                                                                                                                                                                                                                                                                                      
+1 device                                                                                                                                                                                                                                                                                                        
+Intel(R) Iris(R) Xe Graphics                                                                                                                                                                                                                                                                                    
+        96 CL_DEVICE_MAX_COMPUTE_UNITS                                                                                                                                                                                                                                                                          
+        64 CL_DEVICE_PREFERRED_WORK_GROUP_SIZE_MULTIPLE                                                                                                                                                                                                                                                         
+       512 CL_DEVICE_MAX_WORK_GROUP_SIZE                                                                                                                                                                                                                                                                        
+   2073601 image size                                                                                                                                                                                                                                                                                           
+   2074112 global work size (padded image size)                                                                                                                                                                                                                                                                 
+       512 local work size (group size)                                                                                                                                                                                                                                                                         
+      4051 ngroups                                                                                                                                                                                                                                                                                              
+Histogram calculated successfully
 ```
 
 ## Address sanitizing

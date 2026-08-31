@@ -199,6 +199,13 @@ static void populate_image (cl_int nelems, cl_int * image) {
 
 
 static void set_sizes (cl_device_id device, int * gws, int * lws, int * ngroups, int nelems, int * err) {
+    if (err == nullptr) {
+        *err = __LINE__;
+        fprintf(stderr, "ERROR %d: argument `err` shouldn't be nullptr\n", *err);
+        return;
+    }
+    if (*err) return;
+
     char * cl_device_name = nullptr;
     OCLH_device_get(device, CL_DEVICE_NAME, (void **) &cl_device_name, err);
     fprintf(stdout, "%s\n", cl_device_name);

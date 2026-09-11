@@ -17,9 +17,9 @@ There is 1 OpenCL platform on the host:
          CL_DEVICE_NAME               Intel(R) Iris(R) Xe Graphics
          CL_DEVICE_VENDOR             Intel(R) Corporation
          CL_DEVICE_VENDOR_ID          0x8086
-         CL_DEVICE_VERSION            OpenCL 3.0 NEO 
+         CL_DEVICE_VERSION            OpenCL 3.0 NEO
          CL_DRIVER_VERSION            23.43.027642
-         CL_DEVICE_OPENCL_C_VERSION   OpenCL C 1.2 
+         CL_DEVICE_OPENCL_C_VERSION   OpenCL C 1.2
          CL_DEVICE_PROFILE            FULL_PROFILE
          CL_DEVICE_TYPE               CL_DEVICE_TYPE_GPU
 ```
@@ -53,25 +53,66 @@ to aggregate local histograms into the global histogram. Finally, verify the res
 against a serial implementation.
 
 ```console
-$ ./dist/bin/histogram 
+$ ./dist/bin/histogram
 Usage: ./dist/bin/histogram KERNELDIR
 
     Calculate a histogram using the first OpenCL capable device found
 
     KERNELDIR  directory that holds the OpenCL kernel named
                'histogram.cl' (can be a relative path)
-$ ./dist/bin/histogram ./dist/share/kmsz/assets/kernels/                                                                                                                                                                                                                                                     
-1 platform                                                                                                                                                                                                                                                                                                      
-1 device                                                                                                                                                                                                                                                                                                        
-Intel(R) Iris(R) Xe Graphics                                                                                                                                                                                                                                                                                    
-        96 CL_DEVICE_MAX_COMPUTE_UNITS                                                                                                                                                                                                                                                                          
-        64 CL_DEVICE_PREFERRED_WORK_GROUP_SIZE_MULTIPLE                                                                                                                                                                                                                                                         
-       512 CL_DEVICE_MAX_WORK_GROUP_SIZE                                                                                                                                                                                                                                                                        
-   2073601 image size                                                                                                                                                                                                                                                                                           
-   2074112 global work size (padded image size)                                                                                                                                                                                                                                                                 
-       512 local work size (group size)                                                                                                                                                                                                                                                                         
-      4051 ngroups                                                                                                                                                                                                                                                                                              
+$ ./dist/bin/histogram ./dist/share/kmsz/assets/kernels/
+1 platform
+1 device
+Intel(R) Iris(R) Xe Graphics
+        96 CL_DEVICE_MAX_COMPUTE_UNITS
+        64 CL_DEVICE_PREFERRED_WORK_GROUP_SIZE_MULTIPLE
+       512 CL_DEVICE_MAX_WORK_GROUP_SIZE
+   2073601 image size
+   2074112 global work size (padded image size)
+       512 local work size (group size)
+      4051 ngroups
 Histogram calculated successfully
+```
+
+## `rotation`
+
+Rotate an image 45 degrees clockwise using the first OpenCL capable device found.
+
+```console
+$ ./dist/bin/rotate
+Usage: ./dist/bin/rotate IMAGE KERNELDIR
+
+    Rotate an image 45 degrees clockwise using the first OpenCL capable device found
+
+    IMAGE      path to an 8-bit grayscale BMP image (can be
+               relative to working directory). Image dimensions
+               should be a multiple of 4
+
+    KERNELDIR  directory that holds the OpenCL kernel named
+               'rotate.cl' (can be relative to working directory)
+
+$ ./dist/bin/rotate ../images/cat-grayscale-square-800.bmp ./dist/share/kmsz/assets/kernels/
+1 platform
+1 device
+
+image:
+nrows         = 800
+ncols         = 800
+image[     0] = 15
+image[   799] = 119
+image[639200] = 136
+image[639999] = 135
+
+rotated:
+nrows         = 800
+ncols         = 800
+image[     0] = 0
+image[   799] = 0
+image[639200] = 0
+image[639999] = 0
+
+input file   ../images/cat-grayscale-square-800.bmp
+output file  ../images/cat-grayscale-square-800.out.bmp
 ```
 
 ## Acknowledgements

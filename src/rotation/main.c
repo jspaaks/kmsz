@@ -35,14 +35,15 @@ int main (int argc, char * argv[]) {
         fprintf(stderr,
                 "Usage: %s IMAGE KERNELDIR\n"
                 "\n"
-                "    Rotate an image using the first OpenCL capable device found\n"
+                "    Rotate an image 45 degrees clockwise using the first OpenCL capable device found\n"
                 "\n"
                 "    IMAGE      path to an 8-bit grayscale BMP image (can be\n"
                 "               relative to working directory). Image dimensions\n"
                 "               should be a multiple of 4\n"
                 "\n"
                 "    KERNELDIR  directory that holds the OpenCL kernel named\n"
-                "               'rotate.cl' (can be relative to working directory)\n",
+                "               'rotate.cl' (can be relative to working directory)\n"
+                "\n",
                 argv[0]);
         goto cleanup;
     }
@@ -147,7 +148,7 @@ int main (int argc, char * argv[]) {
 
 
     // initialize the kernel
-    float angle = M_PI * 90 / 180;
+    float angle = M_PI * 45 / 180;
     {
         OCLH_knl_create(program, "rotate", &kernel, &err);
         OCLH_knl_set_arg(kernel, 0, sizeof(cl_int), &nrows);

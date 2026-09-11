@@ -1,5 +1,5 @@
-#ifndef ADD_OPENCL_INCLUDED
-#define ADD_OPENCL_INCLUDED
+#ifndef HISTOGRAM_OPENCL_INCLUDED
+#define HISTOGRAM_OPENCL_INCLUDED
 
 #ifndef CL_TARGET_OPENCL_VERSION
 #define CL_TARGET_OPENCL_VERSION 300
@@ -12,4 +12,4 @@
 
 #endif                        // CL_TARGET_OPENCL_VERSION
 
-#endif                        // ADD_OPENCL_INCLUDED
+#endif                        // HISTOGRAM_OPENCL_INCLUDED

@@ -3,3 +3,6 @@
 /callgrind.out.*
 /.vscode
 /*.supp
+/*.bmp
+/images/banks.pdf
+

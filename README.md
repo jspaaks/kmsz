@@ -79,19 +79,20 @@ Histogram calculated successfully
 Rotate an image 45 degrees clockwise using the first OpenCL capable device found.
 
 ```console
-$ ./dist/bin/rotate
+$ ./dist/bin/rotate 
 Usage: ./dist/bin/rotate IMAGE KERNELDIR
 
-    Rotate an image 45 degrees clockwise using the first OpenCL capable device found
+    Rotate an image 45 degrees clockwise using the first OpenCL capable device found.
+    Output file name is IMAGE minus .bmp plus .out.bmp (overwrites if file exists).
 
     IMAGE      path to an 8-bit grayscale BMP image (can be
                relative to working directory). Image dimensions
-               should be a multiple of 4
+               should be a multiple of 4.
 
     KERNELDIR  directory that holds the OpenCL kernel named
                'rotate.cl' (can be relative to working directory)
 
-$ ./dist/bin/rotate ../images/cat-grayscale-square-800.bmp ./dist/share/kmsz/assets/kernels/
+$ ./dist/bin/rotate ../images/cat-grayscale-square-800.bmp ./dist/share/kmsz/assets/kernels/                                                       
 1 platform
 1 device
 
@@ -114,6 +115,14 @@ image[639999] = 0
 input file   ../images/cat-grayscale-square-800.bmp
 output file  ../images/cat-grayscale-square-800.out.bmp
 ```
+
+image:
+
+![cat](/images/cat-grayscale-square-800.bmp)
+
+rotated image:
+
+![cat](/images/cat-grayscale-square-800.out.bmp)
 
 ## Acknowledgements
 

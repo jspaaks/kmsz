@@ -22,7 +22,7 @@ __kernel void rotate (const int nrows, const int ncols, __read_only image2d_t im
     // define how image is sampled: use pixel coordinates (CLK_NORMALIZED_COORDS_FALSE), use linear
     // interpolation to estimate pixel values at a given location based on the surrounding pixels;
     // return zero for coordinates outside the bounds of the image (CLK_ADDRESS_CLAMP)
-    __constant sampler_t sampler = CLK_NORMALIZED_COORDS_FALSE | CLK_FILTER_LINEAR | CLK_ADDRESS_CLAMP;
+    const sampler_t sampler = CLK_NORMALIZED_COORDS_FALSE | CLK_FILTER_LINEAR | CLK_ADDRESS_CLAMP;
 
     // read location `src` from image using the sampling settings from `sampler`
     float4 pixel = read_imagef(image, sampler, src);

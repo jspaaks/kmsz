@@ -170,7 +170,7 @@ int main (int argc, char * argv[]) {
 
         cl_uint ndims = 2;
         const size_t global_work_size[3] = {nrows, ncols, 0};
-        const size_t local_work_size[3] = {nrows / 50, ncols / 25, 0};
+        const size_t local_work_size[3] = {16, 16, 0};
         OCLH_knl_enqueue_execution(queue, kernel, ndims, &global_work_size[0], &local_work_size[0], &err);
         if (err) goto cleanup;
     }

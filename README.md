@@ -118,11 +118,11 @@ output file  ../images/cat-grayscale-square-800.out.bmp
 
 image:
 
-<img src="images/cat-grayscale-square-800.bmp" width=200px />
+<img src="images/cat1280x848.bmp" width=200px />
 
 rotated image:
 
-<img src="images/cat-grayscale-square-800.out.bmp" width=200px />
+<img src="images/cat1280x848.out.bmp" width=200px />
 
 ## Acknowledgements
 

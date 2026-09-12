@@ -57,6 +57,16 @@ int main (int argc, char * argv[]) {
     int ncols = -1;
     {
         bmp_read(input_relpath, &nrows, &ncols, &image, &err);
+        if (nrows % 4 != 0) {
+            err = __LINE__;
+            fprintf(stderr, "ERROR %d: number of rows in input image should be a multiple of 4.\n", err);
+            goto cleanup;
+        }
+        if (ncols % 4 != 0) {
+            err = __LINE__;
+            fprintf(stderr, "ERROR %d: number of columns in input image should be a multiple of 4.\n", err);
+            goto cleanup;
+        }
     }
 
     // initialize the result array `rotated`

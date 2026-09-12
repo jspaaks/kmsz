@@ -3,7 +3,7 @@ static float2 unrotate_vector (__private float2 in, float angle);
 
 __kernel void rotate (const int nrows, const int ncols, __read_only image2d_t image, __write_only image2d_t rotated, float angle) {
 
-    float2 dst = (float2) (get_global_id(0), get_global_id(1));
+    float2 dst = (float2) (get_global_id(1), get_global_id(0));
 
     if (dst.x > ncols) return;
     if (dst.y > nrows) return;

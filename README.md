@@ -92,28 +92,29 @@ Usage: ./dist/bin/rotate IMAGE KERNELDIR
     KERNELDIR  directory that holds the OpenCL kernel named
                'rotate.cl' (can be relative to working directory)
 
-$ ./dist/bin/rotate ../images/cat-grayscale-square-800.bmp ./dist/share/kmsz/assets/kernels/
+$ ./dist/bin/rotate ../images/cat1280x848.bmp ./dist/share/kmsz/assets/kernels/
 1 platform
 1 device
 
 image:
-nrows         = 800
-ncols         = 800
-image[     0] = 15
-image[   799] = 119
-image[639200] = 136
-image[639999] = 135
+nrows          = 848
+ncols          = 1280
+image[      0] = 31
+image[   1279] = 118
+image[1084160] = 155
+image[1085439] = 139
 
 rotated:
-nrows         = 800
-ncols         = 800
-image[     0] = 0
-image[   799] = 0
-image[639200] = 0
-image[639999] = 0
+nrows          = 848
+ncols          = 1280
+image[      0] = 0
+image[   1279] = 0
+image[1084160] = 0
+image[1085439] = 0
 
-input file   ../images/cat-grayscale-square-800.bmp
-output file  ../images/cat-grayscale-square-800.out.bmp
+input file   ../images/cat1280x848.bmp
+output file  ../images/cat1280x848.out.bmp
+rotating the image took 0.316 s (walltime)
 ```
 
 image:

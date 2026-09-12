@@ -7,6 +7,7 @@
 #include <stdio.h>           // fprintf, stdout,
 #include <stdlib.h>          // EXIT_SUCCESS, free, calloc, srand
 #include <string.h>          // strlen, strcat, strcpy
+#include <time.h>            // timespec
 
 
 static void print_corner_values (int nrows, int ncols, uint8_t * image);
@@ -16,6 +17,9 @@ int main (int argc, char * argv[]) {
 
     // declare the error code variable
     int err = EXIT_SUCCESS;
+    struct timespec start = {0};
+    struct timespec finish = {0};
+    double duration = -1;
 
     // declare variables that are mentioned in cleanup label
     cl_context context = {0};
@@ -68,6 +72,12 @@ int main (int argc, char * argv[]) {
             goto cleanup;
         }
     }
+
+    // prepare time instrumentation
+    {
+        clock_gettime(CLOCK_MONOTONIC, &start);
+    }
+
 
     // initialize the result array `rotated`
     {
@@ -189,6 +199,13 @@ int main (int argc, char * argv[]) {
         if (err) goto cleanup;
     }
 
+    // prepare time instrumentation
+    {
+        clock_gettime(CLOCK_MONOTONIC, &finish);
+        duration = (finish.tv_nsec - start.tv_nsec) / 1e9 + (finish.tv_sec - start.tv_sec);
+    }
+
+
     // verify
     {
         fprintf(stdout, "\nimage:\n");
@@ -215,6 +232,7 @@ int main (int argc, char * argv[]) {
         strcpy(&output_relpath[nchars - 5], ".out.bmp");
         fprintf(stdout, "output file  %s\n", output_relpath);
         bmp_write(output_relpath, nrows, ncols, rotated, &err);
+        fprintf(stdout, "rotating the image took %.3f s (walltime)\n", duration);
     }
 
  

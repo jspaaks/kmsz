@@ -49,6 +49,7 @@ target_sources(
         bmp.c
         oclh.c
         main.c
+        timer.c
 )
 
 install(TARGETS tgt_exe_rotate)

@@ -1,6 +1,7 @@
 #include "oclh.h"            // OCLH_*  opencl helpers
 #include "bmp.h"             // bmp_* 
 #include "opencl.h"
+#include "timer.h"           // TIMER_*, struct timer
 #include <inttypes.h>        // PRIu8
 #include <math.h>            // log10, ceil
 #include <stdint.h>          // uint8_t
@@ -17,8 +18,7 @@ int main (int argc, char * argv[]) {
 
     // declare the error code variable
     int err = EXIT_SUCCESS;
-    struct timespec start = {0};
-    struct timespec finish = {0};
+    struct timer * timer = nullptr;
     double duration = -1;
 
     // declare variables that are mentioned in cleanup label
@@ -75,7 +75,7 @@ int main (int argc, char * argv[]) {
 
     // prepare time instrumentation
     {
-        clock_gettime(CLOCK_MONOTONIC, &start);
+        timer = TIMER_create();
     }
 
 
@@ -199,10 +199,9 @@ int main (int argc, char * argv[]) {
         if (err) goto cleanup;
     }
 
-    // prepare time instrumentation
+    // note the time elapsed
     {
-        clock_gettime(CLOCK_MONOTONIC, &finish);
-        duration = (finish.tv_nsec - start.tv_nsec) / 1e9 + (finish.tv_sec - start.tv_sec);
+        duration = TIMER_elapsed(timer);
     }
 
 
@@ -237,6 +236,7 @@ int main (int argc, char * argv[]) {
 
  
 cleanup:
+    TIMER_destroy(&timer);
     free(rotated);
     free(image);
     OCLH_knl_destroy(kernel);

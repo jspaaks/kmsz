@@ -163,7 +163,7 @@ int main (int argc, char * argv[]) {
         OCLH_arg_create_image(context, CL_MEM_READ_ONLY, &format, &desc, &image_meta, &err);
         OCLH_arg_enqueue_writing_image(queue, image_meta, &desc, (const void *) image, &err);
         OCLH_arg_create_image(context, CL_MEM_WRITE_ONLY, &format, &desc, &rotated_meta, &err);
-        OCLH_arg_enqueue_writing_image(queue, rotated_meta, &desc, (const void *) rotated, &err);
+        OCLH_arg_enqueue_writing_image(queue, rotated_meta, &desc, (const void *) rotated, &err);  // not strictly needed but ok
         if (err) goto cleanup;
     }
 

@@ -78,6 +78,11 @@ Histogram calculated successfully
 
 Rotate an image 45 degrees clockwise using the first OpenCL capable device found.
 
+- Note on the host both `image` and `rotated` are of type `uint8_t` but on the device they
+  are 32-bit `float`s.
+- Variables of type `image2d_t` (as well as any other image type) are stored in the device's
+  texture buffer, not regular shared memory or global VRAM.
+
 ```console
 $ ./dist/bin/rotate
 Usage: ./dist/bin/rotate IMAGE KERNELDIR

@@ -5,8 +5,8 @@ __kernel void rotate (const int nrows, const int ncols, __read_only image2d_t im
 
     float2 dst = (float2) (get_global_id(1), get_global_id(0));
 
-    if (dst.x > ncols) return;
-    if (dst.y > nrows) return;
+    if (dst.x > ncols) return;  // bounds checking not strictly necessary in OpenCL 3.0
+    if (dst.y > nrows) return;  // bounds checking not strictly necessary in OpenCL 3.0
 
     float2 origin = (float2) ((float) ncols / 2, (float) nrows / 2);
 

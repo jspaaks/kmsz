@@ -4,7 +4,7 @@ project(kmsz LANGUAGES C)
 
 include(GNUInstallDirs)                                                                                                                                                                                                                                                                                         
 
-option(QUERYING_WITH_ASAN "Whether to enable address sanitizing for executable 'querying'" OFF)
+option(KMSZ_WITH_ASAN "Whether to enable address sanitizing for executables" OFF)
 
 set(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
 

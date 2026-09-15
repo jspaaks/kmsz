@@ -28,10 +28,10 @@ To use address sanitizing, you may need to install an extra dependency, e.g. lik
 sudo apt install libasan8
 ```
 
-The CMake variable `QUERYING_WITH_ASAN` can be used to enable address sanitizing on the
-executable `querying`. `QUERYING_WITH_ASAN`'s value is `OFF` by default. To
-enable it, configure the build via `ccmake ..`, or via a command line argument with:
+The CMake variable `KMSZ_WITH_ASAN` can be used to enable address sanitizing on the
+executables. `KMSZ_WITH_ASAN`'s value is `OFF` by default. To enable it, configure
+the build via `ccmake ..`, or via a command line argument with:
 
 ```console
-$ cmake -DQUERYING_WITH_ASAN=ON ..
+$ cmake -DKMSZ_WITH_ASAN=ON ..
 ```

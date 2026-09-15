@@ -25,7 +25,7 @@ target_compile_options(
         -fPIE
         $<$<CONFIG:Debug>:-g>
         $<$<CONFIG:Debug>:-O0>
-        $<$<BOOL:${QUERYING_WITH_ASAN}>:-fsanitize=address>
+        $<$<BOOL:${KMSZ_WITH_ASAN}>:-fsanitize=address>
         $<$<CONFIG:Release>:-Werror>
 )
 
@@ -39,7 +39,7 @@ target_link_options(
     tgt_exe_querying
     PRIVATE
         -pie
-        $<$<BOOL:${QUERYING_WITH_ASAN}>:-fsanitize=address>
+        $<$<BOOL:${KMSZ_WITH_ASAN}>:-fsanitize=address>
 )
 
 target_sources(

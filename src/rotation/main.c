@@ -17,7 +17,7 @@ static void print_corner_values (int nrows, int ncols, uint8_t * image);
 int main (int argc, char * argv[]) {
 
     // declare the error code variable
-    int err = EXIT_SUCCESS;
+    cl_int err = EXIT_SUCCESS;
     struct timer * timer = nullptr;
     double duration = -1;
 

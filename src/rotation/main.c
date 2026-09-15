@@ -232,6 +232,7 @@ int main (int argc, char * argv[]) {
         fprintf(stdout, "output file  %s\n", output_relpath);
         bmp_write(output_relpath, nrows, ncols, rotated, &err);
         fprintf(stdout, "rotating the image took %.3f s (walltime)\n", duration);
+        free(output_relpath);
     }
 
  

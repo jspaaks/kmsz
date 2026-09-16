@@ -150,6 +150,37 @@ before: 100
 after : 101
 ```
 
+## `pass-struct`
+
+Pass a struct to the kernel to illustrate required alignment.
+
+```console
+$ ./dist/bin/pass-struct
+Usage: ./dist/bin/pass-struct KERNELDIR
+
+    Pass a struct to the kernel to illustrate required alignment.
+
+    KERNELDIR  directory that holds the OpenCL kernel named
+               'pass-struct.cl' (can be relative to working directory)
+
+```
+
+When compiled with `-DKMSZ_USE_KERNEL_ASSERTS=ON`:
+
+```console
+$ ./dist/bin/pass-struct ./dist/share/kmsz/assets/kernels/
+1 platform
+1 device
+kernel didn't report any problems
+```
+
+When compiled with `-DKMSZ_USE_KERNEL_ASSERTS=OFF`:
+
+```console
+$ ./dist/bin/pass-struct ./dist/share/kmsz/assets/kernels/
+ERROR 67: program is only useful when compilation variable KMSZ_USE_KERNEL_ASSERTS has been defined, aborting
+```
+
 ## Acknowledgements
 
 _This project was initialized using [Copier](https://pypi.org/project/copier) and the [copier-template-for-c-projects](https://github.com/jspaaks/copier-template-for-c-projects)._

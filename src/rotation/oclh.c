@@ -19,7 +19,7 @@ static void assert_err_not_nullptr (cl_int * err, int line) {
 }
 
 
-void OCLH_arg_create_buffer (cl_context context, size_t nbytes, cl_mem_flags flags, cl_mem * meta, cl_int * err) {
+void OCLH_arg_create_buffer (cl_context context, cl_mem_flags flags, size_t nbytes, cl_mem * meta, cl_int * err) {
     assert_err_not_nullptr(err, __LINE__);
     if (*err) return;
 

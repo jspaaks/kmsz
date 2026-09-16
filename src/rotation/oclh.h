@@ -2,7 +2,7 @@
 #define ADD_PLATFORMS_INCLUDED
 #include "opencl.h"
 
-void OCLH_arg_create_buffer (cl_context context, size_t nbytes, cl_mem_flags flags, cl_mem * meta, cl_int * err);
+void OCLH_arg_create_buffer (cl_context context, cl_mem_flags flags, size_t nbytes, cl_mem * meta, cl_int * err);
 void OCLH_arg_create_image (cl_context context, cl_mem_flags flags, const cl_image_format * image_format, const cl_image_desc * image_desc, cl_mem * meta, cl_int * err);
 void OCLH_arg_destroy (cl_mem meta);
 void OCLH_arg_enqueue_reading_buffer (cl_command_queue queue, cl_mem meta, size_t nbytes, void * arg, cl_int * err);

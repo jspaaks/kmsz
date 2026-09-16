@@ -220,7 +220,7 @@ void OCLH_knl_destroy (cl_kernel kernel) {
 
 
 void OCLH_knl_enqueue_execution (cl_command_queue queue, cl_kernel kernel, cl_uint ndims, const size_t * global_work_size,
-                                    const size_t * local_work_size, cl_int * err) {
+                                const size_t * local_work_size, cl_int * err) {
     assert_err_not_nullptr(err, __LINE__);
     if (*err) return;
 

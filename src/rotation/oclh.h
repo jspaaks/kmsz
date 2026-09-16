@@ -26,7 +26,7 @@ void OCLH_platforms_create (int nplatforms, cl_platform_id ** platforms, cl_int 
 void OCLH_platforms_destroy (cl_platform_id ** platforms);
 void OCLH_platforms_exist (int nplatforms, cl_int * err);
 void OCLH_platforms_populate (int nplatforms, cl_platform_id * platforms, cl_int * err);
-void OCLH_program_create (cl_context context, int ndevices, const cl_device_id * devices, const char * filename, cl_program * program, cl_int * err);
+void OCLH_program_create (cl_context context, int ndevices, const cl_device_id * devices, const char * filename, cl_program * program, const char * options, cl_int * err);
 void OCLH_program_destroy (cl_program program);
 void OCLH_queue_create (cl_context context, cl_device_id device, cl_command_queue * queue, cl_int * err);
 void OCLH_queue_destroy (cl_command_queue queue);

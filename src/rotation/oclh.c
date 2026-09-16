@@ -286,9 +286,8 @@ void OCLH_platforms_populate (int nplatforms, cl_platform_id * platforms, cl_int
     platforms_check_error(status, err);
 }
 
-
 void OCLH_program_create (cl_context context, int ndevices, const cl_device_id * devices, const char * filename,
-                          cl_program * program, cl_int * err) {
+                          cl_program * program, const char * options, cl_int * err) {
     assert_err_not_nullptr(err, __LINE__);
     if (*err) return;
 
@@ -341,7 +340,7 @@ void OCLH_program_create (cl_context context, int ndevices, const cl_device_id *
 
     // compile and link the program
     {
-        *err = clBuildProgram(*program, ndevices, devices, nullptr, nullptr, nullptr);
+        *err = clBuildProgram(*program, ndevices, devices, options, nullptr, nullptr);
         if (*err != CL_SUCCESS) {
             size_t nbytes;
             cl_program_build_info param = CL_PROGRAM_BUILD_LOG;

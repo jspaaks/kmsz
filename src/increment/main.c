@@ -97,7 +97,11 @@ int main (int argc, char * argv[]) {
             strcat(path, filename);
             path[nchars - 1] = '\0';
         }
-        OCLH_program_create(context, ndevices, devices, path, &program, &err);
+        const char * options = nullptr;
+#ifdef KMSZ_USE_KERNEL_ASSERTS
+        options = "-DKMSZ_USE_KERNEL_ASSERTS";
+#endif
+        OCLH_program_create(context, ndevices, devices, path, &program, options, &err);
         free(path);
         path = nullptr;
         if (err) goto cleanup;

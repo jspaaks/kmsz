@@ -130,6 +130,26 @@ rotated image:
 
 <img src="images/cat1280x848.out.bmp" width=200px />
 
+## `increment`
+
+Increment an integer on the device.
+
+```console
+$ ./dist/bin/increment
+Usage: ./dist/bin/increment KERNELDIR
+
+    Increment an integer on the device.
+
+    KERNELDIR  directory that holds the OpenCL kernel named
+               'increment.cl' (can be relative to working directory)
+
+$ ./dist/bin/increment ./dist/share/kmsz/assets/kernels/
+1 platform
+1 device
+before: 100
+after : 101
+```
+
 ## Acknowledgements
 
 _This project was initialized using [Copier](https://pypi.org/project/copier) and the [copier-template-for-c-projects](https://github.com/jspaaks/copier-template-for-c-projects)._

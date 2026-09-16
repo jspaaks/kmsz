@@ -5,6 +5,7 @@ project(kmsz LANGUAGES C)
 include(GNUInstallDirs)                                                                                                                                                                                                                                                                                         
 
 option(KMSZ_WITH_ASAN "Whether to enable address sanitizing for executables" OFF)
+option(KMSZ_USE_KERNEL_ASSERTS "Whether to enable kernel error reporting" OFF)
 
 set(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
 

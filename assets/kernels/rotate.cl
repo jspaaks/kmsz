@@ -1,7 +1,19 @@
 static float2 unrotate_vector (__private float2 in, float angle);
 
 
-__kernel void rotate (const int nrows, const int ncols, __read_only image2d_t image, __write_only image2d_t rotated, float angle) {
+__kernel void rotate (const int nrows, const int ncols, __read_only image2d_t image, __write_only image2d_t rotated, float angle, __global int * err) {
+    #ifdef KMSZ_USE_KERNEL_ASSERTS
+    if (nrows % 4 != 0) {
+        // conditionally report the first error
+        atomic_cmpxchg(err, 0, __LINE__);
+        return;
+    }
+    if (ncols % 4 != 0) {
+        // conditionally report the first error
+        atomic_cmpxchg(err, 0, __LINE__);
+        return;
+    }
+    #endif
 
     float2 dst = (float2) (get_global_id(1), get_global_id(0));
 

@@ -18,8 +18,7 @@ int main (int argc, char * argv[]) {
 
     // declare the error code variable
     cl_int err = EXIT_SUCCESS;
-    struct timer * timer = nullptr;
-    double duration = -1;
+    cl_int kernel_err = 0;
 
     // declare variables that are mentioned in cleanup label
     cl_context context = {0};
@@ -32,6 +31,14 @@ int main (int argc, char * argv[]) {
     cl_command_queue queue = {0};
     uint8_t * rotated = nullptr;
     cl_mem rotated_meta = {0};
+    cl_mem kernel_err_meta = {0};
+    struct timer * timer = nullptr;
+    double duration = -1;
+
+    // declare the image properties variables
+    cl_image_format format = {0};
+    cl_image_desc desc = {0};
+
 
     // parse the command line arguments
     if (argc != 3) {
@@ -130,53 +137,69 @@ int main (int argc, char * argv[]) {
 
     // initialize the program
     {
-        const char * filename = "rotate.cl";
-        int nchars = strlen(kernel_dir_relpath) + 1 + strlen(filename) + 1;
-        char * path = calloc(nchars, sizeof(char));
-        if (path == nullptr) {
-            err = __LINE__;
-            fprintf(stderr, "ERROR %d: problem allocating dynamic memory for kernel path, aborting\n", err);
-            goto cleanup;
+        char * path = nullptr;
+        {
+            const char * filename = "rotate.cl";
+            int nchars = strlen(kernel_dir_relpath) + 1 + strlen(filename) + 1;
+            path = calloc(nchars, sizeof(char));
+            if (path == nullptr) {
+                err = __LINE__;
+                fprintf(stderr, "ERROR %d: problem allocating dynamic memory for kernel path, aborting\n", err);
+                goto cleanup;
+            }
+            strcpy(path, kernel_dir_relpath);
+            strcat(path, "/");
+            strcat(path, filename);
+            path[nchars - 1] = '\0';
         }
-        strcpy(path, kernel_dir_relpath);
-        strcat(path, "/");
-        strcat(path, filename);
-        path[nchars - 1] = '\0';
-        OCLH_program_create(context, ndevices, devices, path, &program, &err);
+        const char * options = nullptr;
+#ifdef KMSZ_USE_KERNEL_ASSERTS
+        options = "-DKMSZ_USE_KERNEL_ASSERTS";
+#endif
+        OCLH_program_create(context, ndevices, devices, path, &program, options, &err);
         free(path);
         path = nullptr;
         if (err) goto cleanup;
     }
 
 
-    // initialize the kernel arguments and enqueue writing them on the device
-    cl_image_format format = (cl_image_format) {
-        .image_channel_order = CL_R,
-        .image_channel_data_type = CL_UNSIGNED_INT8,
-    };
-    cl_image_desc desc = (cl_image_desc) {
-        .image_type = CL_MEM_OBJECT_IMAGE2D,
-        .image_width = ncols,
-        .image_height = nrows,
-    };
+    // initialize the kernel arguments
     {
+        format = (cl_image_format) {
+            .image_channel_order = CL_R,
+            .image_channel_data_type = CL_UNSIGNED_INT8,
+        };
+        desc = (cl_image_desc) {
+            .image_type = CL_MEM_OBJECT_IMAGE2D,
+            .image_width = ncols,
+            .image_height = nrows,
+        };
         OCLH_arg_create_image(context, CL_MEM_READ_ONLY, &format, &desc, &image_meta, &err);
-        OCLH_arg_enqueue_writing_image(queue, image_meta, &desc, (const void *) image, &err);
         OCLH_arg_create_image(context, CL_MEM_WRITE_ONLY, &format, &desc, &rotated_meta, &err);
-        OCLH_arg_enqueue_writing_image(queue, rotated_meta, &desc, (const void *) rotated, &err);  // not strictly needed but ok
+        OCLH_arg_create_buffer(context, CL_MEM_READ_WRITE, sizeof(cl_int), &kernel_err_meta, &err);
+    }
+
+
+    // enqueue writing of kernel arguments on the device
+    {
+        OCLH_arg_enqueue_writing_image(queue, image_meta, &desc, (const void *) image, &err);
+        OCLH_arg_enqueue_writing_image(queue, rotated_meta, &desc, (const void *) rotated, &err);                   // not strictly needed but ok
+        OCLH_arg_enqueue_writing_buffer(queue, kernel_err_meta, sizeof(cl_int), (const void *) &kernel_err, &err);  // not strictly needed but ok
         if (err) goto cleanup;
     }
 
 
     // initialize the kernel
-    float angle = M_PI * 45 / 180;
     {
+        float angle = M_PI * 45 / 180;
+
         OCLH_knl_create(program, "rotate", &kernel, &err);
         OCLH_knl_set_arg(kernel, 0, sizeof(cl_int), &nrows);
         OCLH_knl_set_arg(kernel, 1, sizeof(cl_int), &ncols);
         OCLH_knl_set_arg(kernel, 2, sizeof(image_meta), &image_meta);
         OCLH_knl_set_arg(kernel, 3, sizeof(rotated_meta), &rotated_meta);
         OCLH_knl_set_arg(kernel, 4, sizeof(cl_float), &angle);
+        OCLH_knl_set_arg(kernel, 5, sizeof(kernel_err_meta), &kernel_err_meta);
 
         cl_uint ndims = 2;
         const size_t global_work_size[3] = {nrows, ncols, 0};
@@ -189,6 +212,7 @@ int main (int argc, char * argv[]) {
     // enqueue reading the output data
     {
         OCLH_arg_enqueue_reading_image(queue, rotated_meta, &desc, (void *) rotated, &err);
+        OCLH_arg_enqueue_reading_buffer(queue, kernel_err_meta, sizeof(cl_int), (void *) &kernel_err, &err);
         if (err) goto cleanup;
     }
 
@@ -196,6 +220,10 @@ int main (int argc, char * argv[]) {
     // wait for the queue to finish
     {
         OCLH_queue_finish(queue, &err);
+        if (kernel_err) {
+            fprintf(stderr, "ERROR %d: encountered problem inside kernel\n", kernel_err);
+            goto cleanup;
+        }
         if (err) goto cleanup;
     }
 
@@ -241,6 +269,7 @@ cleanup:
     free(rotated);
     free(image);
     OCLH_knl_destroy(kernel);
+    OCLH_arg_destroy(kernel_err_meta);
     OCLH_arg_destroy(rotated_meta);
     OCLH_arg_destroy(image_meta);
     OCLH_program_destroy(program);
@@ -248,6 +277,7 @@ cleanup:
     OCLH_ctx_destroy(context);
     OCLH_devs_destroy(ndevices, &devices);
     OCLH_platforms_destroy(&platforms);
+
     return err;
 }
 

@@ -8,6 +8,7 @@ target_compile_definitions(
     tgt_exe_rotate
     PRIVATE
         $<$<CONFIG:Debug>:DEBUG>
+        $<$<BOOL:${KMSZ_USE_KERNEL_ASSERTS}>:KMSZ_USE_KERNEL_ASSERTS>
 )
 
 target_compile_features(

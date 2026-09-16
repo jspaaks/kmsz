@@ -35,3 +35,35 @@ the build via `ccmake ..`, or via a command line argument with:
 ```console
 $ cmake -DKMSZ_WITH_ASAN=ON ..
 ```
+
+## Kernel error reporting
+
+The CMake variable `KMSZ_USE_KERNEL_ASSERTS` can be used to enable error reporting
+from the kernels. `KMSZ_USE_KERNEL_ASSERTS`'s value is `OFF` by default. To enable it, configure
+the build via `ccmake ..`, or via a command line argument with:
+
+```
+$ cmake -DKMSZ_USE_KERNEL_ASSERTS=ON ..
+```
+
+Inside the kernel, you can use regular `ifdef`-`endif` blocks to report errors, like so:
+
+```opencl
+__kernel void mykernel (const int nrows, const int ncols, __global int * err) {
+    #ifdef KMSZ_USE_KERNEL_ASSERTS
+    if (nrows % 4 != 0) {
+        // conditionally report the first error
+        atomic_cmpxchg(err, 0, __LINE__);
+        return;
+    }
+    if (ncols % 4 != 0) {
+        // conditionally report the first error
+        atomic_cmpxchg(err, 0, __LINE__);
+        return;
+    }
+    #endif
+
+    /* actual kernel code here */
+
+}
+```

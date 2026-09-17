@@ -2,6 +2,10 @@
 
 Notes and projects from Kaeli, Mistry, Schaa, and Zhang's _Heterogeneous Computing with OpenCL 2.0_
 
+<center>
+<img src="images/book-front.webp" style="margin:50px"/>
+</center>
+
 For developer notes, see [README.dev.md](README.dev.md).
 
 ## `querying`

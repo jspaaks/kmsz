@@ -189,15 +189,16 @@ int main (int argc, char * argv[]) {
 
     // initialize the kernel
     {
-        float angle = M_PI * 45 / 180;
+        const float pi = 3.14159f;
+        float angle = pi * 45 / 180;
 
         OCLH_knl_create(program, "rotate", &kernel, &err);
         OCLH_knl_set_arg(kernel, 0, sizeof(cl_int), &nrows);
         OCLH_knl_set_arg(kernel, 1, sizeof(cl_int), &ncols);
-        OCLH_knl_set_arg(kernel, 2, sizeof(image_meta), &image_meta);
-        OCLH_knl_set_arg(kernel, 3, sizeof(rotated_meta), &rotated_meta);
+        OCLH_knl_set_arg(kernel, 2, sizeof(cl_mem), &image_meta);
+        OCLH_knl_set_arg(kernel, 3, sizeof(cl_mem), &rotated_meta);
         OCLH_knl_set_arg(kernel, 4, sizeof(cl_float), &angle);
-        OCLH_knl_set_arg(kernel, 5, sizeof(kernel_err_meta), &kernel_err_meta);
+        OCLH_knl_set_arg(kernel, 5, sizeof(cl_mem), &kernel_err_meta);
 
         cl_uint ndims = 2;
         const size_t global_work_size[3] = {nrows, ncols, 0};

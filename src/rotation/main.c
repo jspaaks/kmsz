@@ -1,6 +1,5 @@
 #include "oclh.h"            // OCLH_*  opencl helpers
 #include "bmp.h"             // bmp_* 
-#include "opencl.h"
 #include "timer.h"           // TIMER_*, struct timer
 #include <inttypes.h>        // PRIu8
 #include <math.h>            // log10, ceil
@@ -8,7 +7,6 @@
 #include <stdio.h>           // fprintf, stdout,
 #include <stdlib.h>          // EXIT_SUCCESS, free, calloc, srand
 #include <string.h>          // strlen, strcat, strcpy
-#include <time.h>            // timespec
 
 
 static void print_corner_values (int nrows, int ncols, uint8_t * image);

@@ -17,6 +17,7 @@ endif()
 
 add_subdirectory(assets/kernels)
 add_subdirectory(src/add)
+add_subdirectory(src/convolution)
 add_subdirectory(src/histogram)
 add_subdirectory(src/increment)
 add_subdirectory(src/pass-struct)

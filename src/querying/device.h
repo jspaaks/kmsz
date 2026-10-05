@@ -1,11 +1,11 @@
 #ifndef QUERYING_DEVICE_INCLUDED
 #define QUERYING_DEVICE_INCLUDED
 #define CL_TARGET_OPENCL_VERSION 300
-#include "device.h"           // device_*, struct device
+#include "device.h"    // device_*, struct device
 #ifdef __APPLE__
 #include <OpenCL/opencl.h>    // cl*
 #else
-#include <CL/cl.h>            // cl*
+#include <CL/cl.h>    // cl*
 #endif
 
 struct device;

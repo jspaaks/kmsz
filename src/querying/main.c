@@ -5,8 +5,8 @@
 #else
 #include <CL/cl.h>
 #endif
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 
 static void create_devices (cl_platform_id platform, int * ndevices, cl_device_id ** devices);
@@ -53,27 +53,27 @@ static void create_platform_name (cl_platform_id platform, char ** name) {
 static void create_platforms (int * nplatforms, cl_platform_id ** platforms) {
     cl_int status = clGetPlatformIDs(0, *platforms, (cl_uint *) nplatforms);
     switch (status) {
-        case CL_INVALID_VALUE: {
-            const int code = __LINE__;
-            fprintf(stdout, "ERROR %d: Invalid value, aborting\n", code);
-            exit(code);
-            break;
-        }
-        case CL_OUT_OF_HOST_MEMORY: {
-            const int code = __LINE__;
-            fprintf(stdout, "ERROR %d: out of host memory, aborting\n", code);
-            exit(code);
-            break;
-        }
-        case CL_SUCCESS: {
-            break;
-        }
-        default: {
-            const int code = __LINE__;
-            fprintf(stdout, "ERROR %d: unreachable, aborting\n", code);
-            exit(code);
-            break;
-        }
+    case CL_INVALID_VALUE: {
+        const int code = __LINE__;
+        fprintf(stdout, "ERROR %d: Invalid value, aborting\n", code);
+        exit(code);
+        break;
+    }
+    case CL_OUT_OF_HOST_MEMORY: {
+        const int code = __LINE__;
+        fprintf(stdout, "ERROR %d: out of host memory, aborting\n", code);
+        exit(code);
+        break;
+    }
+    case CL_SUCCESS: {
+        break;
+    }
+    default: {
+        const int code = __LINE__;
+        fprintf(stdout, "ERROR %d: unreachable, aborting\n", code);
+        exit(code);
+        break;
+    }
     }
 
     *platforms = calloc(*nplatforms, sizeof(cl_platform_id));
@@ -85,27 +85,27 @@ static void create_platforms (int * nplatforms, cl_platform_id ** platforms) {
 
     status = clGetPlatformIDs((cl_uint) *nplatforms, *platforms, nullptr);
     switch (status) {
-        case CL_INVALID_VALUE: {
-            const int code = __LINE__;
-            fprintf(stdout, "ERROR %d: Invalid value, aborting\n", code);
-            exit(code);
-            break;
-        }
-        case CL_OUT_OF_HOST_MEMORY: {
-            const int code = __LINE__;
-            fprintf(stdout, "ERROR %d: out of host memory, aborting\n", code);
-            exit(code);
-            break;
-        }
-        case CL_SUCCESS: {
-            break;
-        }
-        default: {
-            const int code = __LINE__;
-            fprintf(stdout, "ERROR %d: unreachable, aborting\n", code);
-            exit(code);
-            break;
-        }
+    case CL_INVALID_VALUE: {
+        const int code = __LINE__;
+        fprintf(stdout, "ERROR %d: Invalid value, aborting\n", code);
+        exit(code);
+        break;
+    }
+    case CL_OUT_OF_HOST_MEMORY: {
+        const int code = __LINE__;
+        fprintf(stdout, "ERROR %d: out of host memory, aborting\n", code);
+        exit(code);
+        break;
+    }
+    case CL_SUCCESS: {
+        break;
+    }
+    default: {
+        const int code = __LINE__;
+        fprintf(stdout, "ERROR %d: unreachable, aborting\n", code);
+        exit(code);
+        break;
+    }
     }
 }
 
@@ -204,12 +204,8 @@ static void print_device_header (int idev, int ndevices) {
 
 
 static void print_devices_header (int ndevices) {
-    fprintf(stdout,
-            "   There %s %d %s on the platform%c\n",
-            ndevices == 1 ? "is" : "are",
-            ndevices,
-            ndevices == 1 ? "device" : "devices",
-            ndevices == 0 ? '.' : ':');
+    fprintf(stdout, "   There %s %d %s on the platform%c\n", ndevices == 1 ? "is" : "are", ndevices,
+            ndevices == 1 ? "device" : "devices", ndevices == 0 ? '.' : ':');
 }
 
 
@@ -219,10 +215,6 @@ static void print_platform_header (int iplat, int nplatforms, const char * name)
 
 
 static void print_platforms_header (int nplatforms) {
-    fprintf(stdout,
-            "There %s %d OpenCL %s on the host%s\n",
-            nplatforms == 1 ? "is" : "are",
-            nplatforms,
-            nplatforms == 1 ? "platform" : "platforms",
-            nplatforms == 0 ? "." : ":");
+    fprintf(stdout, "There %s %d OpenCL %s on the host%s\n", nplatforms == 1 ? "is" : "are", nplatforms,
+            nplatforms == 1 ? "platform" : "platforms", nplatforms == 0 ? "." : ":");
 }

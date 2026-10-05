@@ -1,12 +1,12 @@
 #define CL_TARGET_OPENCL_VERSION 300
-#include "device.h"           // device_*, struct device
+#include "device.h"    // device_*, struct device
 #ifdef __APPLE__
 #include <OpenCL/opencl.h>    // cl*
 #else
-#include <CL/cl.h>            // cl*
+#include <CL/cl.h>    // cl*
 #endif
-#include <stdio.h>            // fprintf, stderr
-#include <stdlib.h>           // calloc, free, exit
+#include <stdio.h>     // fprintf, stderr
+#include <stdlib.h>    // calloc, free, exit
 
 
 struct device {
@@ -27,39 +27,39 @@ static void check_status (cl_int status);
 
 static void check_status (cl_int status) {
     switch (status) {
-        case CL_INVALID_DEVICE: {
-            const int code = __LINE__;
-            fprintf(stderr, "ERROR %d: invalid device, aborting\n", code);
-            exit(code);
-            break;
-        }
-        case CL_INVALID_VALUE: {
-            const int code = __LINE__;
-            fprintf(stderr, "ERROR %d: invalid value, aborting\n", code);
-            exit(code);
-            break;
-        }
-        case CL_OUT_OF_RESOURCES: {
-            const int code = __LINE__;
-            fprintf(stderr, "ERROR %d: out of resources, aborting\n", code);
-            exit(code);
-            break;
-        }
-        case CL_OUT_OF_HOST_MEMORY: {
-            const int code = __LINE__;
-            fprintf(stderr, "ERROR %d: out of host memory, aborting\n", code);
-            exit(code);
-            break;
-        }
-        case CL_SUCCESS: {
-            break;
-        }
-        default: {
-            const int code = __LINE__;
-            fprintf(stderr, "ERROR %d: unreachable, aborting\n", code);
-            exit(code);
-            break;
-        }
+    case CL_INVALID_DEVICE: {
+        const int code = __LINE__;
+        fprintf(stderr, "ERROR %d: invalid device, aborting\n", code);
+        exit(code);
+        break;
+    }
+    case CL_INVALID_VALUE: {
+        const int code = __LINE__;
+        fprintf(stderr, "ERROR %d: invalid value, aborting\n", code);
+        exit(code);
+        break;
+    }
+    case CL_OUT_OF_RESOURCES: {
+        const int code = __LINE__;
+        fprintf(stderr, "ERROR %d: out of resources, aborting\n", code);
+        exit(code);
+        break;
+    }
+    case CL_OUT_OF_HOST_MEMORY: {
+        const int code = __LINE__;
+        fprintf(stderr, "ERROR %d: out of host memory, aborting\n", code);
+        exit(code);
+        break;
+    }
+    case CL_SUCCESS: {
+        break;
+    }
+    default: {
+        const int code = __LINE__;
+        fprintf(stderr, "ERROR %d: unreachable, aborting\n", code);
+        exit(code);
+        break;
+    }
     }
 }
 
@@ -255,30 +255,30 @@ cl_device_type * device_get_type (struct device * self) {
 }
 
 
-    // cl_device_info props[33] = {
-    //     CL_DEVICE_TYPE_CPU,
-    //     CL_DEVICE_MAX_COMPUTE_UNITS,
-    //     CL_DEVICE_MAX_CLOCK_FREQUENCY,
-    //     CL_DEVICE_MAX_WORK_ITEM_DIMENSIONS,
-    //     CL_DEVICE_MAX_WORK_ITEM_SIZES,
-    //     CL_DEVICE_MAX_WORK_GROUP_SIZE,
-    //     CL_DEVICE_ADDRESS_BITS,
-    //     CL_DEVICE_MAX_READ_IMAGE_ARGS,
-    //     CL_DEVICE_MAX_WRITE_IMAGE_ARGS,
-    //     CL_DEVICE_GLOBAL_MEM_SIZE,
-    //     CL_DEVICE_GLOBAL_MEM_CACHELINE_SIZE,
-    //     CL_DEVICE_GLOBAL_MEM_CACHE_SIZE,
-    //     CL_DEVICE_MAX_MEM_ALLOC_SIZE,
-    //     CL_DEVICE_LOCAL_MEM_TYPE,
-    //     CL_DEVICE_LOCAL_MEM_SIZE,
-    //     CL_DEVICE_MAX_CONSTANT_BUFFER_SIZE,
-    //     CL_DEVICE_MAX_CONSTANT_ARGS,
-    //     CL_DEVICE_AVAILABLE,
-    //     CL_DEVICE_COMPILER_AVAILABLE,
-    //     CL_DEVICE_LINKER_AVAILABLE,
-    //     CL_DEVICE_ENDIAN_LITTLE,
-    //     CL_DEVICE_ERROR_CORRECTION_SUPPORT,
-    //     CL_DEVICE_HOST_UNIFIED_MEMORY,
-    //     CL_DEVICE_EXTENSIONS,
-    //     CL_DEVICE_PLATFORM,
-    // };
+// cl_device_info props[33] = {
+//     CL_DEVICE_TYPE_CPU,
+//     CL_DEVICE_MAX_COMPUTE_UNITS,
+//     CL_DEVICE_MAX_CLOCK_FREQUENCY,
+//     CL_DEVICE_MAX_WORK_ITEM_DIMENSIONS,
+//     CL_DEVICE_MAX_WORK_ITEM_SIZES,
+//     CL_DEVICE_MAX_WORK_GROUP_SIZE,
+//     CL_DEVICE_ADDRESS_BITS,
+//     CL_DEVICE_MAX_READ_IMAGE_ARGS,
+//     CL_DEVICE_MAX_WRITE_IMAGE_ARGS,
+//     CL_DEVICE_GLOBAL_MEM_SIZE,
+//     CL_DEVICE_GLOBAL_MEM_CACHELINE_SIZE,
+//     CL_DEVICE_GLOBAL_MEM_CACHE_SIZE,
+//     CL_DEVICE_MAX_MEM_ALLOC_SIZE,
+//     CL_DEVICE_LOCAL_MEM_TYPE,
+//     CL_DEVICE_LOCAL_MEM_SIZE,
+//     CL_DEVICE_MAX_CONSTANT_BUFFER_SIZE,
+//     CL_DEVICE_MAX_CONSTANT_ARGS,
+//     CL_DEVICE_AVAILABLE,
+//     CL_DEVICE_COMPILER_AVAILABLE,
+//     CL_DEVICE_LINKER_AVAILABLE,
+//     CL_DEVICE_ENDIAN_LITTLE,
+//     CL_DEVICE_ERROR_CORRECTION_SUPPORT,
+//     CL_DEVICE_HOST_UNIFIED_MEMORY,
+//     CL_DEVICE_EXTENSIONS,
+//     CL_DEVICE_PLATFORM,
+// };

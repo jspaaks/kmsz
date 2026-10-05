@@ -1,5 +1,5 @@
-#include "oclh.h"            // OCLH_*  opencl helpers
 #include "bmp.h"             // bmp_* 
+#include "oclh.h"            // OCLH_*  opencl helpers
 #include "timer.h"           // TIMER_*, struct timer
 #include <inttypes.h>        // PRIu8
 #include <math.h>            // log10, ceil
@@ -248,21 +248,21 @@ int main (int argc, char * argv[]) {
         fprintf(stdout, "input file   %s\n", input_relpath);
 
         int nchars = strlen(input_relpath) + 1;
-        char * output_relpath = calloc(nchars + 4, sizeof(char));
+        char * output_relpath = calloc(nchars + 8, sizeof(char));
         if (output_relpath == nullptr) {
             err = __LINE__;
             fprintf(stderr, "ERROR %d: encountered problem allocating dynamic memory for output relpath\n", err);
             goto cleanup;
         }
         strcpy(output_relpath, input_relpath);
-        strcpy(&output_relpath[nchars - 5], ".out.bmp");
+        strcpy(&output_relpath[nchars - 5], ".rotated.bmp");
         fprintf(stdout, "output file  %s\n", output_relpath);
         bmp_write(output_relpath, nrows, ncols, rotated, &err);
         fprintf(stdout, "rotating the image took %.3f s (walltime)\n", duration);
         free(output_relpath);
     }
 
- 
+
 cleanup:
     TIMER_destroy(&timer);
     free(rotated);
@@ -279,7 +279,6 @@ cleanup:
 
     return err;
 }
-
 
 static void print_corner_values (int nrows, int ncols, uint8_t * image) {
     int ul = 0;

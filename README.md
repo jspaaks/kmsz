@@ -92,7 +92,7 @@ $ ./dist/bin/rotate
 Usage: ./dist/bin/rotate IMAGE KERNELDIR
 
     Rotate an image 45 degrees clockwise using the first OpenCL capable device found.
-    Output file name is IMAGE minus .bmp plus .out.bmp (overwrites if file exists).
+    Output file name is IMAGE minus .bmp plus .rotated.bmp (overwrites if file exists).
 
     IMAGE      path to an 8-bit grayscale BMP image (can be
                relative to working directory). Image dimensions
@@ -122,7 +122,7 @@ image[1084160] = 0
 image[1085439] = 0
 
 input file   ../images/cat1280x848.bmp
-output file  ../images/cat1280x848.out.bmp
+output file  ../images/cat1280x848.rotated.bmp
 rotating the image took 0.316 s (walltime)
 ```
 
@@ -132,7 +132,7 @@ image:
 
 rotated image:
 
-<img src="images/cat1280x848.out.bmp" width=200px />
+<img src="images/cat1280x848.rotated.bmp" width=200px />
 
 ## `increment`
 

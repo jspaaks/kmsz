@@ -1,7 +1,7 @@
-#include "timer.h"    // TIMER_*, struct timer
-#include <time.h>     // struct timespec, clock_gettime, CLOCK_MONOTONIC
-#include <stdio.h>    // fprintf, stderr
-#include <stdlib.h>   // calloc, free
+#include "timer.h"     // TIMER_*, struct timer
+#include <stdio.h>     // fprintf, stderr
+#include <stdlib.h>    // calloc, free
+#include <time.h>      // struct timespec, clock_gettime, CLOCK_MONOTONIC
 
 
 // exact same definition as `struct timespec`, but opaque

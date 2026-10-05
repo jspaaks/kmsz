@@ -1,12 +1,12 @@
-#include "bmp.h"             // bmp_* 
-#include "oclh.h"            // OCLH_*  opencl helpers
-#include "timer.h"           // TIMER_*, struct timer
-#include <inttypes.h>        // PRIu8
-#include <math.h>            // log10, ceil
-#include <stdint.h>          // uint8_t
-#include <stdio.h>           // fprintf, stdout,
-#include <stdlib.h>          // EXIT_SUCCESS, free, calloc, srand
-#include <string.h>          // strlen, strcat, strcpy
+#include "bmp.h"         // bmp_*
+#include "oclh.h"        // OCLH_*  opencl helpers
+#include "timer.h"       // TIMER_*, struct timer
+#include <inttypes.h>    // PRIu8
+#include <math.h>        // log10, ceil
+#include <stdint.h>      // uint8_t
+#include <stdio.h>       // fprintf, stdout,
+#include <stdlib.h>      // EXIT_SUCCESS, free, calloc, srand
+#include <string.h>      // strlen, strcat, strcpy
 
 
 static void print_corner_values (int nrows, int ncols, uint8_t * image);
@@ -181,8 +181,10 @@ int main (int argc, char * argv[]) {
     // enqueue writing of kernel arguments on the device
     {
         OCLH_arg_enqueue_writing_image(queue, image_meta, &desc, (const void *) image, &err);
-        OCLH_arg_enqueue_writing_image(queue, rotated_meta, &desc, (const void *) rotated, &err);                   // not strictly needed but ok
-        OCLH_arg_enqueue_writing_buffer(queue, kernel_err_meta, sizeof(cl_int), (const void *) &kernel_err, &err);  // not strictly needed but ok
+        OCLH_arg_enqueue_writing_image(queue, rotated_meta, &desc, (const void *) rotated,
+                                       &err);    // not strictly needed but ok
+        OCLH_arg_enqueue_writing_buffer(queue, kernel_err_meta, sizeof(cl_int), (const void *) &kernel_err,
+                                        &err);    // not strictly needed but ok
         if (err) goto cleanup;
     }
 

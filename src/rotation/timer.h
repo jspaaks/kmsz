@@ -7,4 +7,4 @@ struct timer * TIMER_create (void);
 void TIMER_destroy (struct timer ** self);
 double TIMER_elapsed (struct timer * self);
 
-#endif // TIMER_H
+#endif    // TIMER_H

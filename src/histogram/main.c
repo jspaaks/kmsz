@@ -1,9 +1,9 @@
-#include "oclh.h"            // OCLH_*  opencl helpers
+#include "oclh.h"    // OCLH_*  opencl helpers
 #include "opencl.h"
-#include <stdio.h>           // fprintf, stdout,
-#include <stdlib.h>          // EXIT_SUCCESS, free, calloc, srand
-#include <string.h>          // strlen, strcat, strcpy
-#include <time.h>            // time
+#include <stdio.h>     // fprintf, stdout,
+#include <stdlib.h>    // EXIT_SUCCESS, free, calloc, srand
+#include <string.h>    // strlen, strcat, strcpy
+#include <time.h>      // time
 
 
 static void populate_image (cl_int nelems, cl_int * image);
@@ -24,7 +24,7 @@ int main (int argc, char * argv[]) {
     cl_device_id * devices = nullptr;
     cl_platform_id * platforms = nullptr;
 
-    const cl_int nelems = 1920*1080+1;
+    const cl_int nelems = 1920 * 1080 + 1;
     cl_int image[nelems] = {};
     populate_image(nelems, &image[0]);
     cl_mem image_meta = {0};
@@ -215,8 +215,10 @@ static void set_sizes (cl_device_id device, int * gws, int * lws, int * ngroups,
     fprintf(stdout, "%10d CL_DEVICE_MAX_COMPUTE_UNITS\n", *cl_device_max_compute_units);
 
     int * cl_device_preferred_work_group_size_multiple = nullptr;
-    OCLH_device_get(device, CL_DEVICE_PREFERRED_WORK_GROUP_SIZE_MULTIPLE, (void **) &cl_device_preferred_work_group_size_multiple, err);
-    fprintf(stdout, "%10d CL_DEVICE_PREFERRED_WORK_GROUP_SIZE_MULTIPLE\n", *cl_device_preferred_work_group_size_multiple);
+    OCLH_device_get(device, CL_DEVICE_PREFERRED_WORK_GROUP_SIZE_MULTIPLE,
+                    (void **) &cl_device_preferred_work_group_size_multiple, err);
+    fprintf(stdout, "%10d CL_DEVICE_PREFERRED_WORK_GROUP_SIZE_MULTIPLE\n",
+            *cl_device_preferred_work_group_size_multiple);
 
     int * cl_device_max_work_group_size = nullptr;
     OCLH_device_get(device, CL_DEVICE_MAX_WORK_GROUP_SIZE, (void **) &cl_device_max_work_group_size, err);

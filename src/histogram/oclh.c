@@ -1,9 +1,9 @@
 #include "oclh.h"
 #include "opencl.h"
-#include <errno.h>            // errno
-#include <stdio.h>            // fprintf, stderr, FILE, fseek, ftell, SEEK_END, SEEK_SET, fopen, fclose, fread
-#include <stdlib.h>           // calloc, free
-#include <string.h>           // strerror
+#include <errno.h>     // errno
+#include <stdio.h>     // fprintf, stderr, FILE, fseek, ftell, SEEK_END, SEEK_SET, fopen, fclose, fread
+#include <stdlib.h>    // calloc, free
+#include <string.h>    // strerror
 
 
 static void assert_err_not_nullptr (int * err, int line);
@@ -43,7 +43,8 @@ void OCLH_argument_enqueue_reading (cl_command_queue queue, cl_mem meta, size_t 
     const cl_event * event_wait_list = nullptr;
     cl_event * event = nullptr;
 
-    *err = clEnqueueReadBuffer(queue, meta, blocking_write, offset, nbytes, arg, num_events_in_waitlist, event_wait_list, event);
+    *err = clEnqueueReadBuffer(queue, meta, blocking_write, offset, nbytes, arg, num_events_in_waitlist,
+                               event_wait_list, event);
 
     if (*err) {
         fprintf(stderr, "ERROR %d: problem enqueueing reading a buffer\n", *err);
@@ -61,7 +62,8 @@ void OCLH_argument_enqueue_writing (cl_command_queue queue, cl_mem meta, size_t 
     const cl_event * event_wait_list = nullptr;
     cl_event * event = nullptr;
 
-    *err = clEnqueueWriteBuffer(queue, meta, blocking_write, offset, nbytes, arg, num_events_in_waitlist, event_wait_list, event);
+    *err = clEnqueueWriteBuffer(queue, meta, blocking_write, offset, nbytes, arg, num_events_in_waitlist,
+                                event_wait_list, event);
 
     if (*err) {
         fprintf(stderr, "ERROR %d: problem enqueueing writing a buffer\n", *err);
@@ -73,7 +75,7 @@ void OCLH_context_create (int ndevices, const cl_device_id * devices, cl_context
     assert_err_not_nullptr(err, __LINE__);
     if (*err) return;
     cl_context_properties * properties = nullptr;
-    void (*callback)(const char *, const void *, size_t,  void *) = nullptr;
+    void (*callback)(const char *, const void *, size_t, void *) = nullptr;
     void * userdata = nullptr;
     *context = clCreateContext(properties, ndevices, devices, callback, userdata, (cl_int *) err);
 }
@@ -165,7 +167,8 @@ void OCLH_kernel_destroy (cl_kernel kernel) {
 }
 
 
-void OCLH_kernel_enqueue_execution (cl_command_queue queue, cl_kernel kernel, const size_t * global_work_size, const size_t * local_work_size, int * err) {
+void OCLH_kernel_enqueue_execution (cl_command_queue queue, cl_kernel kernel, const size_t * global_work_size,
+                                    const size_t * local_work_size, int * err) {
     assert_err_not_nullptr(err, __LINE__);
     if (*err) return;
 
@@ -175,7 +178,8 @@ void OCLH_kernel_enqueue_execution (cl_command_queue queue, cl_kernel kernel, co
     const cl_event * event_wait_list = nullptr;
     cl_event * event = nullptr;
 
-    *err = clEnqueueNDRangeKernel(queue, kernel, work_dim, global_work_offset, global_work_size, local_work_size, num_events_in_waitlist, event_wait_list, event);
+    *err = clEnqueueNDRangeKernel(queue, kernel, work_dim, global_work_offset, global_work_size, local_work_size,
+                                  num_events_in_waitlist, event_wait_list, event);
 
     if (*err) {
         fprintf(stderr, "ERROR %d: problem enqueueing kernel execution\n", *err);
@@ -232,7 +236,8 @@ void OCLH_platforms_populate (int nplatforms, cl_platform_id * platforms, int * 
 }
 
 
-void OCLH_program_create (cl_context context, int ndevices, const cl_device_id * devices, const char * filename, cl_program * program, int * err) {
+void OCLH_program_create (cl_context context, int ndevices, const cl_device_id * devices, const char * filename,
+                          cl_program * program, int * err) {
     assert_err_not_nullptr(err, __LINE__);
     if (*err) return;
 
@@ -258,7 +263,8 @@ void OCLH_program_create (cl_context context, int ndevices, const cl_device_id *
         sources[0] = calloc(nbytes + 1, sizeof(char));
         if (sources[0] == nullptr) {
             *err = __LINE__;
-            fprintf(stderr, "ERROR %d: problem allocating dynamic memory for storing source of file '%s', aborting\n", *err, filename);
+            fprintf(stderr, "ERROR %d: problem allocating dynamic memory for storing source of file '%s', aborting\n",
+                    *err, filename);
             fclose(file);
             return;
         }
@@ -328,23 +334,23 @@ void OCLH_queue_finish (cl_command_queue queue, int * err) {
 
 static void platforms_check_error (cl_int status, int * err) {
     switch (status) {
-        case CL_INVALID_VALUE: {
-            *err = __LINE__;
-            fprintf(stderr, "ERROR %d: Invalid value, aborting\n", *err);
-            break;
-        }
-        case CL_OUT_OF_HOST_MEMORY: {
-            *err = __LINE__;
-            fprintf(stderr, "ERROR %d: out of host memory, aborting\n", *err);
-            break;
-        }
-        case CL_SUCCESS: {
-            break;
-        }
-        default: {
-            *err = __LINE__;
-            fprintf(stderr, "ERROR %d: unreachable, aborting\n", *err);
-            break;
-        }
+    case CL_INVALID_VALUE: {
+        *err = __LINE__;
+        fprintf(stderr, "ERROR %d: Invalid value, aborting\n", *err);
+        break;
+    }
+    case CL_OUT_OF_HOST_MEMORY: {
+        *err = __LINE__;
+        fprintf(stderr, "ERROR %d: out of host memory, aborting\n", *err);
+        break;
+    }
+    case CL_SUCCESS: {
+        break;
+    }
+    default: {
+        *err = __LINE__;
+        fprintf(stderr, "ERROR %d: unreachable, aborting\n", *err);
+        break;
+    }
     }
 }

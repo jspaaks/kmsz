@@ -1,8 +1,8 @@
-#include "oclh.h"            // OCLH_*  opencl helpers
+#include "oclh.h"    // OCLH_*  opencl helpers
 #include "opencl.h"
-#include <stdio.h>           // fprintf, stdout,
-#include <stdlib.h>          // EXIT_SUCCESS, free, calloc, srand
-#include <string.h>          // strlen, strcat, strcpy
+#include <stdio.h>     // fprintf, stdout,
+#include <stdlib.h>    // EXIT_SUCCESS, free, calloc, srand
+#include <string.h>    // strlen, strcat, strcpy
 
 
 int main (int argc, char * argv[]) {

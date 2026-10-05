@@ -1,15 +1,15 @@
 #include "array.h"
 #include "context.h"
 #include "devices.h"
-#include "opencl.h"
 #include "kernel.h"
 #include "kernel_arg.h"
+#include "opencl.h"
 #include "platforms.h"
 #include "program.h"
 #include "queue.h"
-#include <stdlib.h>          // exit, EXIT_SUCCESS, calloc, free
-#include <stdio.h>           // fprintf, stderr
-#include <string.h>          // strcat, strcpy, strlen
+#include <stdio.h>     // fprintf, stderr
+#include <stdlib.h>    // exit, EXIT_SUCCESS, calloc, free
+#include <string.h>    // strcat, strcpy, strlen
 
 
 int main (int argc, char * argv[]) {
@@ -132,8 +132,8 @@ int main (int argc, char * argv[]) {
 
     // enqueue writing the input data to the device
     {
-        kernel_arg_enqueue_writing (queue, a_meta, nbytes, (const int *) a, &err);
-        kernel_arg_enqueue_writing (queue, b_meta, nbytes, (const int *) b, &err);
+        kernel_arg_enqueue_writing(queue, a_meta, nbytes, (const int *) a, &err);
+        kernel_arg_enqueue_writing(queue, b_meta, nbytes, (const int *) b, &err);
     }
 
 

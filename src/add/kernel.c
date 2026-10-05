@@ -22,7 +22,8 @@ void kernel_destroy (cl_kernel kernel) {
 }
 
 
-void kernel_enqueue_execution (cl_command_queue queue, cl_kernel kernel, const size_t * global_work_size, const size_t * local_work_size, int * err) {
+void kernel_enqueue_execution (cl_command_queue queue, cl_kernel kernel, const size_t * global_work_size,
+                               const size_t * local_work_size, int * err) {
     if (err == nullptr) {
         *err = __LINE__;
         fprintf(stderr, "ERROR %d: argument `err` shouldn't be nullptr\n", *err);
@@ -36,7 +37,8 @@ void kernel_enqueue_execution (cl_command_queue queue, cl_kernel kernel, const s
     const cl_event * event_wait_list = nullptr;
     cl_event * event = nullptr;
 
-    *err = clEnqueueNDRangeKernel(queue, kernel, work_dim, global_work_offset, global_work_size, local_work_size, num_events_in_waitlist, event_wait_list, event);
+    *err = clEnqueueNDRangeKernel(queue, kernel, work_dim, global_work_offset, global_work_size, local_work_size,
+                                  num_events_in_waitlist, event_wait_list, event);
 
     if (*err) {
         fprintf(stderr, "ERROR %d: problem enqueueing kernel execution\n", *err);

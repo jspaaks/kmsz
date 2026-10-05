@@ -8,8 +8,8 @@
 #include <OpenCL/opencl.h>
 #else
 #include <CL/cl.h>
-#endif                        // __APPLE__
+#endif    // __APPLE__
 
-#endif                        // CL_TARGET_OPENCL_VERSION
+#endif    // CL_TARGET_OPENCL_VERSION
 
-#endif                        // ADD_OPENCL_INCLUDED
+#endif    // ADD_OPENCL_INCLUDED

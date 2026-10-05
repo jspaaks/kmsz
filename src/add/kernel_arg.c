@@ -35,7 +35,8 @@ void kernel_arg_enqueue_reading (cl_command_queue queue, cl_mem meta, size_t nby
     const cl_event * event_wait_list = nullptr;
     cl_event * event = nullptr;
 
-    *err = clEnqueueReadBuffer(queue, meta, blocking_write, offset, nbytes, arg, num_events_in_waitlist, event_wait_list, event);
+    *err = clEnqueueReadBuffer(queue, meta, blocking_write, offset, nbytes, arg, num_events_in_waitlist,
+                               event_wait_list, event);
 
     if (*err) {
         fprintf(stderr, "ERROR %d: problem enqueueing reading a buffer\n", *err);
@@ -57,10 +58,10 @@ void kernel_arg_enqueue_writing (cl_command_queue queue, cl_mem meta, size_t nby
     const cl_event * event_wait_list = nullptr;
     cl_event * event = nullptr;
 
-    *err = clEnqueueWriteBuffer(queue, meta, blocking_write, offset, nbytes, arg, num_events_in_waitlist, event_wait_list, event);
+    *err = clEnqueueWriteBuffer(queue, meta, blocking_write, offset, nbytes, arg, num_events_in_waitlist,
+                                event_wait_list, event);
 
     if (*err) {
         fprintf(stderr, "ERROR %d: problem enqueueing writing a buffer\n", *err);
     }
 }
-

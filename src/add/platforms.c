@@ -1,6 +1,6 @@
 #include "platforms.h"
 #include "opencl.h"
-#include <stdio.h>       // fprintf, stderr
+#include <stdio.h>    // fprintf, stderr
 
 
 void platforms_create (int * nplatforms, cl_platform_id ** platforms, int * err) {
@@ -12,24 +12,24 @@ void platforms_create (int * nplatforms, cl_platform_id ** platforms, int * err)
     if (*err) return;
     cl_int status = clGetPlatformIDs(0, *platforms, (cl_uint *) nplatforms);
     switch (status) {
-        case CL_INVALID_VALUE: {
-            *err = __LINE__;
-            fprintf(stderr, "ERROR %d: Invalid value, aborting\n", *err);
-            return;
-        }
-        case CL_OUT_OF_HOST_MEMORY: {
-            *err = __LINE__;
-            fprintf(stderr, "ERROR %d: out of host memory, aborting\n", *err);
-            return;
-        }
-        case CL_SUCCESS: {
-            break;
-        }
-        default: {
-            *err = __LINE__;
-            fprintf(stderr, "ERROR %d: unreachable, aborting\n", *err);
-            return;
-        }
+    case CL_INVALID_VALUE: {
+        *err = __LINE__;
+        fprintf(stderr, "ERROR %d: Invalid value, aborting\n", *err);
+        return;
+    }
+    case CL_OUT_OF_HOST_MEMORY: {
+        *err = __LINE__;
+        fprintf(stderr, "ERROR %d: out of host memory, aborting\n", *err);
+        return;
+    }
+    case CL_SUCCESS: {
+        break;
+    }
+    default: {
+        *err = __LINE__;
+        fprintf(stderr, "ERROR %d: unreachable, aborting\n", *err);
+        return;
+    }
     }
 
     *platforms = calloc(*nplatforms, sizeof(cl_platform_id));
@@ -41,24 +41,24 @@ void platforms_create (int * nplatforms, cl_platform_id ** platforms, int * err)
 
     status = clGetPlatformIDs((cl_uint) *nplatforms, *platforms, nullptr);
     switch (status) {
-        case CL_INVALID_VALUE: {
-            *err = __LINE__;
-            fprintf(stderr, "ERROR %d: Invalid value, aborting\n", *err);
-            return;
-        }
-        case CL_OUT_OF_HOST_MEMORY: {
-            *err = __LINE__;
-            fprintf(stderr, "ERROR %d: out of host memory, aborting\n", *err);
-            return;
-        }
-        case CL_SUCCESS: {
-            break;
-        }
-        default: {
-            *err = __LINE__;
-            fprintf(stderr, "ERROR %d: unreachable, aborting\n", *err);
-            return;
-        }
+    case CL_INVALID_VALUE: {
+        *err = __LINE__;
+        fprintf(stderr, "ERROR %d: Invalid value, aborting\n", *err);
+        return;
+    }
+    case CL_OUT_OF_HOST_MEMORY: {
+        *err = __LINE__;
+        fprintf(stderr, "ERROR %d: out of host memory, aborting\n", *err);
+        return;
+    }
+    case CL_SUCCESS: {
+        break;
+    }
+    default: {
+        *err = __LINE__;
+        fprintf(stderr, "ERROR %d: unreachable, aborting\n", *err);
+        return;
+    }
     }
 }
 

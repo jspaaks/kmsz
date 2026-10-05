@@ -1,12 +1,13 @@
 #include "program.h"
 #include "opencl.h"
-#include <errno.h>            // errno
-#include <stdio.h>            // fprintf, stderr, FILE, fseek, ftell, SEEK_END, SEEK_SET, fopen, fclose, fread
-#include <stdlib.h>           // calloc, free, exit
-#include <string.h>           // strerror
+#include <errno.h>     // errno
+#include <stdio.h>     // fprintf, stderr, FILE, fseek, ftell, SEEK_END, SEEK_SET, fopen, fclose, fread
+#include <stdlib.h>    // calloc, free, exit
+#include <string.h>    // strerror
 
 
-void program_create (cl_context context, cl_device_id * device, const char * filename, cl_program * program, int * err) {
+void program_create (cl_context context, cl_device_id * device, const char * filename, cl_program * program,
+                     int * err) {
     if (err == nullptr) {
         *err = __LINE__;
         fprintf(stderr, "ERROR %d: argument `err` shouldn't be nullptr\n", *err);
@@ -29,7 +30,8 @@ void program_create (cl_context context, cl_device_id * device, const char * fil
         source = calloc(nbytes + 1, sizeof(char));
         if (source == nullptr) {
             *err = __LINE__;
-            fprintf(stderr, "ERROR %d: problem allocating dynamic memory for storing source of file '%s', aborting\n", *err, filename);
+            fprintf(stderr, "ERROR %d: problem allocating dynamic memory for storing source of file '%s', aborting\n",
+                    *err, filename);
             fclose(file);
             return;
         }

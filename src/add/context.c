@@ -11,7 +11,7 @@ void context_create (int ndevices, const cl_device_id * devices, cl_context * co
     }
     if (*err) return;
     cl_context_properties * properties = nullptr;
-    void (*callback)(const char *, const void *, size_t,  void *) = nullptr;
+    void (*callback)(const char *, const void *, size_t, void *) = nullptr;
     void * userdata = nullptr;
     *context = clCreateContext(properties, ndevices, devices, callback, userdata, (cl_int *) err);
 }

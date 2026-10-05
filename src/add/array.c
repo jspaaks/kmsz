@@ -1,6 +1,6 @@
 #include "array.h"
-#include <stdio.h>      // fprintf, stderr
-#include <stdlib.h>     // calloc, free
+#include <stdio.h>     // fprintf, stderr
+#include <stdlib.h>    // calloc, free
 
 
 void array_create (int nelems, int ** arr, int * err) {

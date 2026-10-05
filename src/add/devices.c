@@ -1,6 +1,6 @@
 #include "devices.h"
-#include <stdio.h>       // fprintf, stderr
-#include <stdlib.h>      // calloc, free
+#include <stdio.h>     // fprintf, stderr
+#include <stdlib.h>    // calloc, free
 
 
 void devices_create (cl_platform_id platform, int * ndevices, cl_device_id ** devices, int * err) {

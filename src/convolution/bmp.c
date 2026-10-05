@@ -1,11 +1,11 @@
 #include "bmp.h"
-#include <inttypes.h>  // PRIx32
-#include <limits.h>    // INT_MAX
-#include <errno.h>     // errno
-#include <stdio.h>     // fopen, fclose
-#include <stdint.h>    // uint8_t
-#include <stdlib.h>    // calloc
-#include <string.h>    // strerror
+#include <errno.h>       // errno
+#include <inttypes.h>    // PRIx32
+#include <limits.h>      // INT_MAX
+#include <stdint.h>      // uint8_t
+#include <stdio.h>       // fopen, fclose
+#include <stdlib.h>      // calloc
+#include <string.h>      // strerror
 
 
 static bool assert_err_equals_0 (int * err);
@@ -59,7 +59,8 @@ static void assert_magic_bytes_ok (FILE * fp, const char * relpath, int * err) {
     int status = fseek(fp, 0, SEEK_SET);
     if (status != 0) {
         *err = __LINE__;
-        fprintf(stderr, "ERROR %d: encountered problem setting the file position indicator in file '%s'\n%s\n", *err, relpath, strerror(errno));
+        fprintf(stderr, "ERROR %d: encountered problem setting the file position indicator in file '%s'\n%s\n", *err,
+                relpath, strerror(errno));
         return;
     }
     uint16_t magic = -1;
@@ -68,13 +69,15 @@ static void assert_magic_bytes_ok (FILE * fp, const char * relpath, int * err) {
     size_t n = fread(&magic, nbytes, nelems, fp);
     if (n != nelems) {
         *err = __LINE__;
-        fprintf(stderr, "ERROR %d: encountered problem reading the magic bytes from file '%s'\n%s\n", *err, relpath, strerror(errno));
+        fprintf(stderr, "ERROR %d: encountered problem reading the magic bytes from file '%s'\n%s\n", *err, relpath,
+                strerror(errno));
         return;
     }
     uint16_t magic_expected = 'B' << 0 | 'M' << 8;
     if (magic != magic_expected) {
         *err = __LINE__;
-        fprintf(stderr, "ERROR %d: magic bytes (0x%" PRIx32 ") do not match the expected value (0x%" PRIx32 ")\n", *err, magic, magic_expected);
+        fprintf(stderr, "ERROR %d: magic bytes (0x%" PRIx32 ") do not match the expected value (0x%" PRIx32 ")\n", *err,
+                magic, magic_expected);
         return;
     }
 }
@@ -91,7 +94,8 @@ void bmp_read (const char * relpath, int * nrows, int * ncols, uint8_t ** image,
         fp = fopen(relpath, "rb");
         if (fp == nullptr) {
             *err = __LINE__;
-            fprintf(stderr, "ERROR %d: encountered problem trying to open file '%s' for reading\n%s\n", *err, relpath, strerror(errno));
+            fprintf(stderr, "ERROR %d: encountered problem trying to open file '%s' for reading\n%s\n", *err, relpath,
+                    strerror(errno));
             return;
         }
     }
@@ -110,7 +114,8 @@ void bmp_read (const char * relpath, int * nrows, int * ncols, uint8_t ** image,
         int status = fclose(fp);
         fp = nullptr;
         if (status == EOF) {
-            fprintf(stderr, "ERROR %d: encountered problem trying to close file '%s'\n%s\n", *err, relpath, strerror(errno));
+            fprintf(stderr, "ERROR %d: encountered problem trying to close file '%s'\n%s\n", *err, relpath,
+                    strerror(errno));
             return;
         }
     }
@@ -143,8 +148,8 @@ void bmp_write (const char * output_relpath, int nrows, int ncols, const uint8_t
     write_bits_per_pixel(buffer);
     write_compression(buffer);
     write_image_size(buffer, nrows, ncols);
-    write_xpixels_per_meter(buffer, 11811);      // ~300 dpi
-    write_ypixels_per_meter(buffer, 11811);      // ~300 dpi
+    write_xpixels_per_meter(buffer, 11811);    // ~300 dpi
+    write_ypixels_per_meter(buffer, 11811);    // ~300 dpi
     write_ncolors(buffer);
     write_color_bitmasks(buffer);
     write_color_space_type(buffer);
@@ -192,7 +197,8 @@ static void read_ncols (FILE * fp, const char * relpath, int * ncols, int * err)
     int status = fseek(fp, offset, SEEK_SET);
     if (status != 0) {
         *err = __LINE__;
-        fprintf(stderr, "ERROR %d: encountered problem setting the file position indicator in file '%s'\n%s\n", *err, relpath, strerror(errno));
+        fprintf(stderr, "ERROR %d: encountered problem setting the file position indicator in file '%s'\n%s\n", *err,
+                relpath, strerror(errno));
         return;
     }
     uint32_t val = -1;
@@ -201,7 +207,8 @@ static void read_ncols (FILE * fp, const char * relpath, int * ncols, int * err)
     size_t n = fread(&val, nbytes, nelems, fp);
     if (n != nelems) {
         *err = __LINE__;
-        fprintf(stderr, "ERROR %d: encountered problem reading the number of columns from file '%s'\n%s\n", *err, relpath, strerror(errno));
+        fprintf(stderr, "ERROR %d: encountered problem reading the number of columns from file '%s'\n%s\n", *err,
+                relpath, strerror(errno));
         return;
     }
     if (val > INT_MAX) {
@@ -220,7 +227,8 @@ static void read_nrows (FILE * fp, const char * relpath, int * nrows, int * err)
     int status = fseek(fp, offset, SEEK_SET);
     if (status != 0) {
         *err = __LINE__;
-        fprintf(stderr, "ERROR %d: encountered problem setting the file position indicator in file '%s'\n%s\n", *err, relpath, strerror(errno));
+        fprintf(stderr, "ERROR %d: encountered problem setting the file position indicator in file '%s'\n%s\n", *err,
+                relpath, strerror(errno));
         return;
     }
     uint32_t val = -1;
@@ -229,7 +237,8 @@ static void read_nrows (FILE * fp, const char * relpath, int * nrows, int * err)
     size_t n = fread(&val, nbytes, nelems, fp);
     if (n != nelems) {
         *err = __LINE__;
-        fprintf(stderr, "ERROR %d: encountered problem reading the number of rows from file '%s'\n%s\n", *err, relpath, strerror(errno));
+        fprintf(stderr, "ERROR %d: encountered problem reading the number of rows from file '%s'\n%s\n", *err, relpath,
+                strerror(errno));
         return;
     }
     if (val > INT_MAX) {
@@ -247,14 +256,16 @@ static void read_pixels (FILE * fp, const char * relpath, int start, int nelems,
     int status = fseek(fp, start, SEEK_SET);
     if (status != 0) {
         *err = __LINE__;
-        fprintf(stderr, "ERROR %d: encountered problem setting the file position indicator in file '%s'\n%s\n", *err, relpath, strerror(errno));
+        fprintf(stderr, "ERROR %d: encountered problem setting the file position indicator in file '%s'\n%s\n", *err,
+                relpath, strerror(errno));
         return;
     }
     size_t nbytes = 1;
     size_t n = fread(pixels, nbytes, nelems, fp);
     if (n != (size_t) nelems) {
         *err = __LINE__;
-        fprintf(stderr, "ERROR %d: encountered problem reading the pixels from file '%s'\n%s\n", *err, relpath, strerror(errno));
+        fprintf(stderr, "ERROR %d: encountered problem reading the pixels from file '%s'\n%s\n", *err, relpath,
+                strerror(errno));
         return;
     }
 }
@@ -267,7 +278,8 @@ static void read_start (FILE * fp, const char * relpath, int * start, int * err)
     int status = fseek(fp, offset, SEEK_SET);
     if (status != 0) {
         *err = __LINE__;
-        fprintf(stderr, "ERROR %d: encountered problem setting the file position indicator in file '%s'\n%s\n", *err, relpath, strerror(errno));
+        fprintf(stderr, "ERROR %d: encountered problem setting the file position indicator in file '%s'\n%s\n", *err,
+                relpath, strerror(errno));
         return;
     }
     uint32_t val = -1;
@@ -276,7 +288,8 @@ static void read_start (FILE * fp, const char * relpath, int * start, int * err)
     size_t n = fread(&val, nbytes, nelems, fp);
     if (n != nelems) {
         *err = __LINE__;
-        fprintf(stderr, "ERROR %d: encountered problem reading the data start position from file '%s'\n%s\n", *err, relpath, strerror(errno));
+        fprintf(stderr, "ERROR %d: encountered problem reading the data start position from file '%s'\n%s\n", *err,
+                relpath, strerror(errno));
         return;
     }
     if (val > INT_MAX) {
@@ -307,7 +320,7 @@ static void write_color_bitmasks (uint8_t * buffer) {
 static void write_color_space_type (uint8_t * buffer) {
     int offset = 70;
     int nbytes = 4;
-    uint32_t val = 'B' << 8*0 | 'G' << 8*1 | 'R' << 8*2 | 's' << 8*3;
+    uint32_t val = 'B' << 8 * 0 | 'G' << 8 * 1 | 'R' << 8 * 2 | 's' << 8 * 3;
     memcpy(&buffer[offset], &val, nbytes);
 }
 
@@ -323,12 +336,13 @@ static void write_compression (uint8_t * buffer) {
 static void write_image_data (const char * output_relpath, int nbytes, uint8_t * buffer, int * err) {
     FILE * fp;
 
-     // open file
+    // open file
     {
         fp = fopen(output_relpath, "wb");
         if (fp == nullptr) {
             *err = __LINE__;
-            fprintf(stderr, "ERROR %d: encountered problem trying to open file '%s' for writing\n%s\n", *err, output_relpath, strerror(errno));
+            fprintf(stderr, "ERROR %d: encountered problem trying to open file '%s' for writing\n%s\n", *err,
+                    output_relpath, strerror(errno));
             return;
         }
     }
@@ -348,7 +362,8 @@ static void write_image_data (const char * output_relpath, int nbytes, uint8_t *
         int status = fclose(fp);
         fp = nullptr;
         if (status == EOF) {
-            fprintf(stderr, "ERROR %d: encountered problem trying to close file '%s'\n%s\n", *err, output_relpath, strerror(errno));
+            fprintf(stderr, "ERROR %d: encountered problem trying to close file '%s'\n%s\n", *err, output_relpath,
+                    strerror(errno));
             return;
         }
     }
@@ -407,7 +422,7 @@ static void write_color_palette (uint8_t * buffer) {
     for (int icolor = 0; icolor < 256; icolor++) {
         for (int ichannel = 0; ichannel < 3; ichannel++) {
             uint8_t val = (uint8_t) icolor;
-            memcpy(&buffer[offset+icolor*4+ichannel], &val, nbytes);
+            memcpy(&buffer[offset + icolor * 4 + ichannel], &val, nbytes);
         }
     }
 }
@@ -415,7 +430,7 @@ static void write_color_palette (uint8_t * buffer) {
 
 static void write_pixels (int nrows, int ncols, const uint8_t * pixels, uint8_t * buffer) {
     int offset = 1162;
-    memcpy(&buffer[offset], &pixels[0], nrows*ncols);
+    memcpy(&buffer[offset], &pixels[0], nrows * ncols);
 }
 
 
@@ -454,4 +469,3 @@ static void write_ypixels_per_meter (uint8_t * buffer, uint32_t pixels_per_meter
     int nbytes = 4;
     memcpy(&buffer[offset], &pixels_per_meter, nbytes);
 }
-

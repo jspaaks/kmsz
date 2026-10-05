@@ -1,8 +1,8 @@
-#include "bmp.h"             // bmp_read
-#include "oclh.h"            // OCLH_*  opencl helpers
-#include <stdio.h>           // fprintf, stderr
+#include "bmp.h"      // bmp_read
+#include "oclh.h"     // OCLH_*  opencl helpers
+#include <stdio.h>    // fprintf, stderr
 #include <stdlib.h>
-#include <string.h>          // strlen, strcat, strcpy
+#include <string.h>    // strlen, strcat, strcpy
 
 
 int main (int argc, char * argv[]) {
@@ -37,11 +37,10 @@ int main (int argc, char * argv[]) {
     constexpr cl_int nrange = 2;
     constexpr cl_int nfilter = (nrange * 2 + 1) * (nrange * 2 + 1);
     cl_float filter[nfilter] = {
-        1.0f / 273.0f,  4.0f / 273.0f,  7.0f / 273.0f,  4.0f / 273.0f, 1.0f / 273.0f, 
-        4.0f / 273.0f, 16.0f / 273.0f, 26.0f / 273.0f, 16.0f / 273.0f, 4.0f / 273.0f, 
-        7.0f / 273.0f, 26.0f / 273.0f, 41.0f / 273.0f, 26.0f / 273.0f, 7.0f / 273.0f, 
-        4.0f / 273.0f, 16.0f / 273.0f, 26.0f / 273.0f, 16.0f / 273.0f, 4.0f / 273.0f, 
-        1.0f / 273.0f,  4.0f / 273.0f,  7.0f / 273.0f,  4.0f / 273.0f, 1.0f / 273.0f, 
+        1.0f / 273.0f,  4.0f / 273.0f,  7.0f / 273.0f,  4.0f / 273.0f,  1.0f / 273.0f,  4.0f / 273.0f,  16.0f / 273.0f,
+        26.0f / 273.0f, 16.0f / 273.0f, 4.0f / 273.0f,  7.0f / 273.0f,  26.0f / 273.0f, 41.0f / 273.0f, 26.0f / 273.0f,
+        7.0f / 273.0f,  4.0f / 273.0f,  16.0f / 273.0f, 26.0f / 273.0f, 16.0f / 273.0f, 4.0f / 273.0f,  1.0f / 273.0f,
+        4.0f / 273.0f,  7.0f / 273.0f,  4.0f / 273.0f,  1.0f / 273.0f,
     };
 
     // parse the command line arguments
@@ -177,28 +176,34 @@ int main (int argc, char * argv[]) {
         OCLH_arg_create_image(context, CL_MEM_READ_ONLY, &format, &desc, &input_meta, &err);
         OCLH_arg_create_image(context, CL_MEM_WRITE_ONLY, &format, &desc, &output_meta, &err);
         OCLH_arg_create_buffer(context, CL_MEM_READ_WRITE, sizeof(cl_int), &kernel_err_meta, &err);
-        OCLH_arg_create_buffer(context, CL_MEM_READ_ONLY, sizeof(cl_float) * (nrange * 2 + 1) * (nrange * 2 + 1), &filter_meta, &err);
+        OCLH_arg_create_buffer(context, CL_MEM_READ_ONLY, sizeof(cl_float) * (nrange * 2 + 1) * (nrange * 2 + 1),
+                               &filter_meta, &err);
     }
 
 
     // enqueue writing of kernel arguments on the device
     {
         OCLH_arg_enqueue_writing_image(queue, input_meta, &desc, (const void *) input, &err);
-        OCLH_arg_enqueue_writing_image(queue, output_meta, &desc, (const void *) output, &err);                     // not strictly needed but ok
-        OCLH_arg_enqueue_writing_buffer(queue, kernel_err_meta, sizeof(cl_int), (const void *) &kernel_err, &err);  // not strictly needed but ok
+        OCLH_arg_enqueue_writing_image(queue, output_meta, &desc, (const void *) output,
+                                       &err);    // not strictly needed but ok
+        OCLH_arg_enqueue_writing_buffer(queue, kernel_err_meta, sizeof(cl_int), (const void *) &kernel_err,
+                                        &err);    // not strictly needed but ok
         OCLH_arg_enqueue_writing_buffer(queue, filter_meta, sizeof(cl_float) * nfilter, (const void *) &filter, &err);
         if (err) goto cleanup;
     }
 
-    
+
     // initialize the kernel
     {
         // define how pixels are sampled in the kernel
         cl_sampler_properties properties[] = {
-            CL_SAMPLER_NORMALIZED_COORDS, CL_FALSE,
-            CL_SAMPLER_ADDRESSING_MODE,   CL_ADDRESS_CLAMP_TO_EDGE,
-            CL_SAMPLER_FILTER_MODE,       CL_FILTER_NEAREST,
-            0                             // The array must be terminated with 0
+            CL_SAMPLER_NORMALIZED_COORDS,
+            CL_FALSE,
+            CL_SAMPLER_ADDRESSING_MODE,
+            CL_ADDRESS_CLAMP_TO_EDGE,
+            CL_SAMPLER_FILTER_MODE,
+            CL_FILTER_NEAREST,
+            0    // The array must be terminated with 0
         };
         cl_sampler sampler = clCreateSamplerWithProperties(context, properties, &err);
 
@@ -259,7 +264,7 @@ int main (int argc, char * argv[]) {
 cleanup:
 
     free(output);
-    free(input);    
+    free(input);
     OCLH_queue_destroy(queue);
     OCLH_program_destroy(program);
     OCLH_platforms_destroy(&platforms);
@@ -269,6 +274,6 @@ cleanup:
     OCLH_arg_destroy(input_meta);
     OCLH_kernel_destroy(kernel);
     OCLH_ctx_destroy(context);
-    
+
     return EXIT_SUCCESS;
 }

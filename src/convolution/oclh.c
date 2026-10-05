@@ -1,8 +1,8 @@
-#include "oclh.h"             // header file corresponding to this implementation 
-#include <errno.h>            // errno
-#include <stdio.h>            // fprintf, stderr, FILE, fseek, ftell, SEEK_END, SEEK_SET, fopen, fclose, fread
-#include <stdlib.h>           // calloc, free
-#include <string.h>           // strerror
+#include "oclh.h"      // header file corresponding to this implementation
+#include <errno.h>     // errno
+#include <stdio.h>     // fprintf, stderr, FILE, fseek, ftell, SEEK_END, SEEK_SET, fopen, fclose, fread
+#include <stdlib.h>    // calloc, free
+#include <string.h>    // strerror
 
 
 static bool assert_err_equals_0 (int * err);
@@ -34,7 +34,7 @@ void OCLH_arg_create_buffer (cl_context context, cl_mem_flags flags, size_t nbyt
 
 
 void OCLH_arg_create_image (cl_context context, cl_mem_flags flags, const cl_image_format * image_format,
-                                 const cl_image_desc * image_desc, cl_mem * meta, cl_int * err) {
+                            const cl_image_desc * image_desc, cl_mem * meta, cl_int * err) {
     if (!assert_err_not_nullptr(err, __LINE__)) return;
     if (!assert_err_equals_0(err)) return;
 
@@ -58,7 +58,8 @@ void OCLH_arg_enqueue_reading_buffer (cl_command_queue queue, cl_mem meta, size_
     const cl_event * event_wait_list = nullptr;
     cl_event * event = nullptr;
 
-    *err = clEnqueueReadBuffer(queue, meta, isblocking, offset, nbytes, arg, num_events_in_waitlist, event_wait_list, event);
+    *err = clEnqueueReadBuffer(queue, meta, isblocking, offset, nbytes, arg, num_events_in_waitlist, event_wait_list,
+                               event);
 
     if (*err) {
         fprintf(stderr, "ERROR %d: problem enqueueing reading a buffer\n", *err);
@@ -66,7 +67,8 @@ void OCLH_arg_enqueue_reading_buffer (cl_command_queue queue, cl_mem meta, size_
 }
 
 
-void OCLH_arg_enqueue_reading_image (cl_command_queue queue, cl_mem meta, const cl_image_desc * desc, void * arg, cl_int * err) {
+void OCLH_arg_enqueue_reading_image (cl_command_queue queue, cl_mem meta, const cl_image_desc * desc, void * arg,
+                                     cl_int * err) {
     if (!assert_err_not_nullptr(err, __LINE__)) return;
     if (!assert_err_equals_0(err)) return;
 
@@ -79,8 +81,8 @@ void OCLH_arg_enqueue_reading_image (cl_command_queue queue, cl_mem meta, const 
     const cl_event * event_wait_list = nullptr;
     cl_event * event = nullptr;
 
-    *err = clEnqueueReadImage(queue, meta, isblocking, &origin[0], &region[0], input_row_pitch, input_slice_pitch,
-                              arg, num_events_in_waitlist, event_wait_list, event);
+    *err = clEnqueueReadImage(queue, meta, isblocking, &origin[0], &region[0], input_row_pitch, input_slice_pitch, arg,
+                              num_events_in_waitlist, event_wait_list, event);
 
     if (*err) {
         fprintf(stderr, "ERROR %d: problem enqueueing reading an image\n", *err);
@@ -88,7 +90,8 @@ void OCLH_arg_enqueue_reading_image (cl_command_queue queue, cl_mem meta, const 
 }
 
 
-void OCLH_arg_enqueue_writing_buffer (cl_command_queue queue, cl_mem meta, size_t nbytes, const void * arg, cl_int * err) {
+void OCLH_arg_enqueue_writing_buffer (cl_command_queue queue, cl_mem meta, size_t nbytes, const void * arg,
+                                      cl_int * err) {
     if (!assert_err_not_nullptr(err, __LINE__)) return;
     if (!assert_err_equals_0(err)) return;
 
@@ -98,7 +101,8 @@ void OCLH_arg_enqueue_writing_buffer (cl_command_queue queue, cl_mem meta, size_
     const cl_event * event_wait_list = nullptr;
     cl_event * event = nullptr;
 
-    *err = clEnqueueWriteBuffer(queue, meta, isblocking, offset, nbytes, arg, num_events_in_waitlist, event_wait_list, event);
+    *err = clEnqueueWriteBuffer(queue, meta, isblocking, offset, nbytes, arg, num_events_in_waitlist, event_wait_list,
+                                event);
 
     if (*err) {
         fprintf(stderr, "ERROR %d: problem enqueueing writing a buffer\n", *err);
@@ -106,7 +110,8 @@ void OCLH_arg_enqueue_writing_buffer (cl_command_queue queue, cl_mem meta, size_
 }
 
 
-void OCLH_arg_enqueue_writing_image (cl_command_queue queue, cl_mem meta, const cl_image_desc * desc, const void * arg, cl_int * err) {
+void OCLH_arg_enqueue_writing_image (cl_command_queue queue, cl_mem meta, const cl_image_desc * desc, const void * arg,
+                                     cl_int * err) {
     if (!assert_err_not_nullptr(err, __LINE__)) return;
     if (!assert_err_equals_0(err)) return;
 
@@ -119,8 +124,8 @@ void OCLH_arg_enqueue_writing_image (cl_command_queue queue, cl_mem meta, const 
     const cl_event * event_wait_list = nullptr;
     cl_event * event = nullptr;
 
-    *err = clEnqueueWriteImage(queue, meta, isblocking, &origin[0], &region[0], input_row_pitch, input_slice_pitch,
-                               arg, num_events_in_waitlist, event_wait_list, event);
+    *err = clEnqueueWriteImage(queue, meta, isblocking, &origin[0], &region[0], input_row_pitch, input_slice_pitch, arg,
+                               num_events_in_waitlist, event_wait_list, event);
 
     if (*err) {
         fprintf(stderr, "ERROR %d: problem enqueueing writing an image\n", *err);
@@ -132,7 +137,7 @@ void OCLH_ctx_create (int ndevices, const cl_device_id * devices, cl_context * c
     if (!assert_err_not_nullptr(err, __LINE__)) return;
     if (!assert_err_equals_0(err)) return;
     cl_context_properties * properties = nullptr;
-    void (*callback)(const char *, const void *, size_t,  void *) = nullptr;
+    void (*callback)(const char *, const void *, size_t, void *) = nullptr;
     void * userdata = nullptr;
     *context = clCreateContext(properties, ndevices, devices, callback, userdata, (cl_int *) err);
 }
@@ -219,8 +224,8 @@ void OCLH_kernel_destroy (cl_kernel kernel) {
 }
 
 
-void OCLH_kernel_enqueue_execution (cl_command_queue queue, cl_kernel kernel, cl_uint ndims, const size_t * global_work_size,
-                                const size_t * local_work_size, cl_int * err) {
+void OCLH_kernel_enqueue_execution (cl_command_queue queue, cl_kernel kernel, cl_uint ndims,
+                                    const size_t * global_work_size, const size_t * local_work_size, cl_int * err) {
     if (!assert_err_not_nullptr(err, __LINE__)) return;
     if (!assert_err_equals_0(err)) return;
 
@@ -313,7 +318,8 @@ void OCLH_program_create (cl_context context, int ndevices, const cl_device_id *
         sources[0] = calloc(nbytes + 1, sizeof(char));
         if (sources[0] == nullptr) {
             *err = __LINE__;
-            fprintf(stderr, "ERROR %d: problem allocating dynamic memory for storing source of file '%s', aborting\n", *err, filename);
+            fprintf(stderr, "ERROR %d: problem allocating dynamic memory for storing source of file '%s', aborting\n",
+                    *err, filename);
             fclose(file);
             return;
         }
@@ -383,23 +389,23 @@ void OCLH_queue_finish (cl_command_queue queue, cl_int * err) {
 
 static void platforms_check_error (cl_int status, cl_int * err) {
     switch (status) {
-        case CL_INVALID_VALUE: {
-            *err = __LINE__;
-            fprintf(stderr, "ERROR %d: Invalid value, aborting\n", *err);
-            break;
-        }
-        case CL_OUT_OF_HOST_MEMORY: {
-            *err = __LINE__;
-            fprintf(stderr, "ERROR %d: out of host memory, aborting\n", *err);
-            break;
-        }
-        case CL_SUCCESS: {
-            break;
-        }
-        default: {
-            *err = __LINE__;
-            fprintf(stderr, "ERROR %d: unreachable, aborting\n", *err);
-            break;
-        }
+    case CL_INVALID_VALUE: {
+        *err = __LINE__;
+        fprintf(stderr, "ERROR %d: Invalid value, aborting\n", *err);
+        break;
+    }
+    case CL_OUT_OF_HOST_MEMORY: {
+        *err = __LINE__;
+        fprintf(stderr, "ERROR %d: out of host memory, aborting\n", *err);
+        break;
+    }
+    case CL_SUCCESS: {
+        break;
+    }
+    default: {
+        *err = __LINE__;
+        fprintf(stderr, "ERROR %d: unreachable, aborting\n", *err);
+        break;
+    }
     }
 }

@@ -185,6 +185,43 @@ $ ./dist/bin/pass-struct ./dist/share/kmsz/assets/kernels/
 ERROR 67: program is only useful when compilation variable KMSZ_USE_KERNEL_ASSERTS has been defined, aborting
 ```
 
+# `convolution`
+
+Apply a filter to IMAGE using the kernel from KERNELDIR with the first OpenCL capable device found.
+
+```console
+$ ./dist/bin/convolution
+Usage: ./dist/bin/convolution IMAGE KERNELDIR
+
+    Apply a filter to IMAGE using the kernel from KERNELDIR with the first OpenCL
+    capable device found.
+
+    Output file name is IMAGE minus .bmp plus .filtered.bmp (overwrites if file exists).
+
+    IMAGE      path to an 8-bit grayscale BMP image (can be
+               relative to working directory). Image dimensions
+               should be a multiple of 4.
+
+    KERNELDIR  directory that holds the OpenCL kernel named
+               'convolution.cl' (can be relative to working directory)
+
+$ ./dist/bin/convolution ../images/cat1280x848.bmp ./dist/share/kmsz/assets/kernels/
+1 platform
+1 device
+input file   ../images/cat1280x848.bmp
+output file  ../images/cat1280x848.filtered.bmp
+```
+
+image:
+
+<img src="images/cat1280x848.bmp" width=200px />
+
+filtered image:
+
+<img src="images/cat1280x848.filtered.bmp" width=200px />
+
+(note there seem to be some artifacts, maybe due to numeric precision of `uint8_t`?)
+
 ## Acknowledgements
 
 _This project was initialized using [Copier](https://pypi.org/project/copier) and the [copier-template-for-c-projects](https://github.com/jspaaks/copier-template-for-c-projects)._

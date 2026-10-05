@@ -1,8 +1,8 @@
-#include "oclh.h"            // OCLH_*  opencl helpers
-#include "opencl.h"
-#include <stdio.h>           // fprintf, stdout,
-#include <stdlib.h>          // EXIT_SUCCESS, free, calloc, srand
-#include <string.h>          // strlen, strcat, strcpy
+#include "oclh.h"      // OCLH_*  opencl helpers
+#include "opencl.h"    //
+#include <stdio.h>     // fprintf, stdout,
+#include <stdlib.h>    // EXIT_SUCCESS, free, calloc, srand
+#include <string.h>    // strlen, strcat, strcpy
 
 struct dim {
     alignas(4) cl_int filter;
@@ -65,9 +65,12 @@ int main (int argc, char * argv[]) {
 
 #ifndef KMSZ_USE_KERNEL_ASSERTS
     err = __LINE__;
-    fprintf(stderr, "ERROR %d: program is only useful when compilation variable KMSZ_USE_KERNEL_ASSERTS has been defined, aborting\n", err);
+    fprintf(stderr,
+            "ERROR %d: program is only useful when compilation variable KMSZ_USE_KERNEL_ASSERTS has been defined, "
+            "aborting\n",
+            err);
     goto cleanup;
-#endif // KMSZ_USE_KERNEL_ASSERTS
+#endif    // KMSZ_USE_KERNEL_ASSERTS
 
 
     // define the number of rows in image and in filter
